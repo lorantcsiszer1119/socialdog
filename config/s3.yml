@@ -1,0 +1,17 @@
+development:
+  bucket_name: msddev
+  access_key_id: AKIAJQBIW6BXNFVCNLIQ
+  secret_access_key: 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
+  distribution_domain: localhost
+
+test:
+  bucket_name: appname_test
+  access_key_id: 
+  secret_access_key: 
+  distribution_domain: XXXX.cloudfront.net
+
+production:
+  bucket_name: mysocialdogavatars
+  access_key_id: AKIAJQBIW6BXNFVCNLIQ
+  secret_access_key: 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
+  distribution_domain: ve.tblfkffj.vesrv.com

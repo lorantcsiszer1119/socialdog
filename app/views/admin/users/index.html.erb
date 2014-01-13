@@ -1,0 +1,31 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2>User Admin</h2>
+    </div>
+
+<% unless @users.empty? %>
+    
+    <% for user in @users %>
+    <div class="user">
+        <h2><%=h user.login -%> (<%=h user.real_name -%>)</h2>
+        <%= link_to 'Ban', "/admin/users/ban?id=#{user.id}", :method => :post %>
+        or
+        <%= link_to 'Delete', "/admin/users/destroy?id=#{user.id}", :method => :post, :confirm => 'Are you sure?' %>
+    </div>
+    <% end %>
+    
+    <%= will_paginate @users %>
+    
+<% end %>
+</div>
+
+<style type="text/css" media="screen">
+    div.user {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    div.user h2 {
+        font-size: 18px;
+    }
+</style>

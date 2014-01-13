@@ -1,0 +1,42 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2><%=h @page_title -%></h2>
+    </div>
+    <div id="search_box">
+        <form action="/search" method="get">
+            <fieldset>
+                <div>
+                    <input class="field" type="text" name="q" id="q" value="<%=h @terms -%>" style="width: 462px;" />
+                    <input type="submit" value="Search" onclick="$(this).attr('xdisabled', 'disabled');" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div id="search_results">
+        <% @no_load_more = true %>
+        <%= render :partial => 'updates/updates' %>
+    </div>
+</div>
+<div class="sidebar">
+    <div id="search_user_results">
+        <% if @users && !@users.empty? %>
+        <br /><br />
+        <h3>Matching Users</h3>
+            
+            <% for user in @users %>
+            <div class="user_result">
+                <a href="/<%= user.login -%>"><%= image_tag_for_user(user, :thumb) %></a>
+                <a href="/<%= user.login -%>"><%= user.login -%></a> / <span class="name"><%= user.real_name -%></span> / <span class="zip"><%= user.zipcode -%></span>
+            </div>
+            <% end %>
+        
+        <% end %>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <% @no_friends = true %>
+    <% @user = current_user %>
+    <%= render :partial => 'shared/sidebar', :object => @user, :as => :sidebar_user %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){ $('#q').focus(); });
+</script>

@@ -1,0 +1,1 @@
+<%= Invite::DEFAULT_MESSAGE.gsub(/\{login\}/, @from_user.login).gsub(/\{real_name\}/, @from_user.real_name).gsub(/\{message\}/, h(@message.to_s)) %>

@@ -1,0 +1,73 @@
+<div class="main-col">
+    <% if @extra_header %>
+    <div class="extra-header">
+        <h2><%=h @extra_header -%> <small>/ <% if @which == 'to' -%><a href="/messages/sent">Show sent messages</a><% else -%><a href="/messages">Show received messages</a><% end -%></small></h2>
+    </div>
+    <% end %>
+    
+    <div id="post-update">
+        <% form_for @private_message, :url => private_messages_path, :html => {:onsubmit => "UpdateForm.disable();$('#update-body').attr('readonly','readonly');"} do |f| %>
+            <input type="hidden" name="from" value="/messages" />
+            <input type="hidden" name="skip_d" value="yes" />
+            <input type="hidden" id="to_user" name="to_user" value="" />
+            <div class="top-bar">
+                <h3><label for="update-body">Send a private message to</label></h3>
+                <span id="update-chars">140</span>
+                <select id="private-message-user" onchange="$('#update-body').focus();">
+                    <option value="" selected="selected"></option>
+                    <% current_user.follows.each do |f| %>
+                    <option value="<%= f.login -%>"><%= f.login -%></option>
+                    <% end %>
+                </select>
+                <?php endif; ?>
+            </div>
+            <div class="first">
+                <textarea name="private_message[body]" id="update-body" rows="3" cols="35"></textarea>
+            </div>
+            <div>
+                <input style="float: right; font-size: 120%;" id="update-button-pm" onclick="$('#to_user').val($('#private-message-user').val());" type="submit" value="Send Message" />
+            </div>
+        <% end %>
+    </div>
+    
+    <% unless @private_messages.empty? %>
+    <% for pm in @private_messages %>
+    <div class="update" id="update-<%= pm.id -%>">
+        <div class="photo">
+            <a href="/<%= pm.user(@which).login -%>"><%= image_tag_for_user(pm.user(@which), :small) -%></a>
+        </div>
+        <div class="body">
+            <p class="update"><% if @which == 'to' -%><a class="username" href="/<%= pm.user.login -%>"><%= pm.user.login -%></a>:<% end -%>
+                <%= pretty_body pm -%></p>
+            <p class="meta"><%= @which == 'to' ? 'received' : 'sent' %>
+                <%= time_ago_in_words pm.created_at %> ago
+                <% if @which == 'to' %>
+                / <a href="/home?status=d+@<%= pm.user.login -%>+YOUR+REPLY+HERE" onclick="$('#private-message-user').val('<%= pm.user.login -%>').change();return false;">Reply to <%= pm.user.login -%></a>
+                <% if current_user && current_user.id == pm.user_id %>
+                <a class="delete" href="/updates/<%= pm.id -%>/destroy" onclick="return confirm('Are you sure you want to delete this update forever? There is no undo!');" style="font-weight: bold;">&times;</a>
+                <% end %>
+                <% else %>
+                to <a href="/<%= pm.user(@which).login -%>"><%= pm.user(@which).login -%></a>
+                <% end %></p>
+        </div>
+    </div>
+    <% end %>
+
+    <%= will_paginate @private_messages unless @private_messages.empty? %>
+
+    <% else %>
+    <div class="blank-slate">
+        <h5><% if @which == 'to' -%>Aw! No private messages have been sent to you yet!<% else -%>Hmm, looks like you haven&#8217;t sent any private messages yet.<% end -%></h5>
+    </div>
+    <% end %>
+</div>
+<div class="sidebar">
+    <% @no_friends = @no_rss = true %>
+    <% @user = current_user %>
+    <%= render :partial => 'shared/sidebar', :object => @user, :as => :sidebar_user %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    UpdateForm.init();
+    $('div.update').removeClass('last');
+    $('div.update:last').addClass('last');
+</script>

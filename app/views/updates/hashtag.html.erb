@@ -1,0 +1,33 @@
+<style type="text/css" media="screen">
+    h3.bigger {
+        font-size: 20px;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+</style>
+<div class="main-col">
+    <div class="extra-header">
+        <% if @zoom_miles %>
+        <h2>#<%=h @hashtag -%> updates <%= !@zoom_miles ? "in" : "within #{@zoom_miles} miles of" -%> <%= @zipcode -%></h2>
+        <% else %>
+        <h2>#<%=h @hashtag -%> updates in <%=h @zipcode -%></h2>
+        <% end %>
+        <div id="community-zoom">
+            Show updates within:
+            <% %w{2 5 10 20 50}.each do |miles| %>
+            <% if miles.to_i > 2-%>/ <% end -%><a class="<% if @zoom_miles == miles.to_i -%>miles_current<% end -%>" href="?miles=<%= miles -%>"><%= miles -%> miles</a>
+            <% end %>
+            / <a href="/search?q=%23<%=h @hashtag -%>">Everyone</a>
+        </div>
+    </div>
+    <%= render :partial => 'updates/updates' %>
+</div>
+<div class="sidebar">
+    <% @user = current_user; @no_rss = true; %>
+    <%= render(:partial => 'shared/sidebar', :object => @user, :as => :sidebar_user) if current_user %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $('div.update').removeClass('last');
+    $('div.update:last').addClass('last');
+</script>

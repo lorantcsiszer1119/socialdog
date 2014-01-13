@@ -1,0 +1,21 @@
+/*----------------------------
+ IE fixes for My Social Dog
+----------------------------*/
+div#header,
+div#content,
+div.update,
+div#post-update form,
+div.pages,
+div#post-update form div.top-bar,
+div#content div.sidebar div.follows,
+div#profile-top,
+div.clearfix,
+.friend_wrapper,
+.new-profile,
+.profile-dogs .dog,
+.new-profile-bottom,
+.dog_owners,
+#other_social_dogs {
+    display: block;
+    zoom: 1;
+}

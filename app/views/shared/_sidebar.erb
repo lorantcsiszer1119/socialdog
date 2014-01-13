@@ -1,0 +1,40 @@
+<% @sidebar_user = @user %>
+
+<% unless @sidebar_user.nil? || @sidebar_user.is_brand? || !Rails.env.production? %>
+<div class="ad">
+    <script type="text/javascript">
+      GA_googleFillSlot("MySocialDog_300x250");
+    </script>
+</div>
+<% end %>
+
+<% if @show_brand_message == true && !@sidebar_user.nil? %>
+    <% if @sidebar_user.is_brand? && !@sidebar_user.brand_special_message.blank? %>
+    <div id="brand_message">
+        <h4>Special Message:</h4>
+        <%= simple_format auto_link(@sidebar_user.brand_special_message) %>
+    </div>
+    <% end %>
+<% end %>
+
+<% unless @no_friends %>
+<div class="follows">
+    <% unless @sidebar_user.follows.empty? %>
+    <h4><% if @sidebar_user.id == current_user.id -%>Your Friends<% else -%>Friends of <%=h @sidebar_user.login -%><% end -%></h4>
+    <% for f in @sidebar_user.follows.paginate(:page => 1, :per_page => 14) %>
+    <a href="/<%= f.login -%>"><%= image_tag_for_user(f, :thumb) -%></a>
+    <% end %>
+    <% end %>
+</div>
+<% unless @sidebar_user.follows.empty? %>
+<div class="view-all">
+    <a href="/<%= @sidebar_user.login -%>/friends">View all&hellip;</a>
+</div>
+<% end %>
+
+<% end %>
+<div class="sidebar-footer">
+    <% if current_user && !@no_rss %>
+    <a class="rss" href="<%= request.env['REQUEST_PATH'] -%>.rss<% if @terms && !@terms.blank? -%>?q=<%= CGI.escape(@terms) -%><% end -%>">Get RSS updates for this page</a>
+    <% end %>
+</div>

@@ -1,0 +1,83 @@
+<% if form.object.new_record? && params[:follow] %><%= hidden_field_tag :follow, params[:follow] %><% end %>
+<div>
+    <%= form.label :email -%><br />
+    <%= form.text_field :email, { :class => 'field', :msd_context => "Type your email address here - we need this so we're able to contact you." } %>
+</div>
+<% if form.object.new_record? %>
+<div>
+    <%= form.label :login, 'Username' -%><br />
+    <%= form.text_field :login, { :class => 'field', :msd_context => (form.object.new_record? ? "Choose a username. It can only contain letters and numbers." : "TODO when usernames become editable") } %>
+</div>
+<% end %>
+<div>
+    <%= form.label :real_name, 'Your Name' -%><br />
+    <%= form.text_field :real_name, { :class => 'field', :msd_context => "What should we call you?" } %>
+</div>
+<div>
+    <%= form.label :zipcode -%><br />
+    <%= form.text_field :zipcode, { :class => 'field short', :msd_context => "5 digits, and we only support US zipcodes right now." } %>
+</div>
+<% unless form.object.new_record? %>
+
+<% if form.object.is_brand? %>
+<input type="hidden" name="user[bio]" value="short bio" />
+<% else %>
+<div>
+    <%= form.label :bio, (form.object.is_brand? ? 'The short version of your bio' : 'Bio') -%><br />
+    <%= form.text_area :bio, { :class => 'field', :msd_context => "Tell us a bit about yourself here.", :rows => 2, :cols => 35 } %><br />
+    <p id="update-chars"><%= pluralize(!@user.bio.nil? ? (140 - @user.bio.size) : 140, 'character') -%> left</p>
+</div>
+<% end %>
+
+<% if form.object.is_brand? %>
+<div>
+    <%= form.label :brand_addr1, 'Address 1' %><br />
+    <%= form.text_field :brand_addr1, { :class => 'field', :msd_context => "What is your address?"} %>
+</div>
+<div>
+    <%= form.label :brand_addr2, 'Address 2' %><br />
+    <%= form.text_field :brand_addr2, { :class => 'field', :msd_context => "What is your address?"} %>
+</div>
+<div>
+    <%= form.label :brand_city, 'City' %><br />
+    <%= form.text_field :brand_city, { :class => 'field', :msd_context => "What is your city?"} %>
+</div>
+<div>
+    <%= form.label :brand_state, 'State' %><br />
+    <%= form.text_field :brand_state, { :class => 'field', :msd_context => "What is your state?"} %>
+</div>
+<div>
+    <%= form.label :brand_website, 'Your Brand\'s Website' -%><br />
+    <%= form.text_field :brand_website, { :class => 'field', :msd_context => "What is your website?" } %>
+</div>
+<div>
+    <%= form.label :brand_bio, 'Tell everyone about your brand' -%><br />
+    <%= form.text_area :brand_bio, { :class => 'field', :msd_context => "Tell us about your brand here.", :rows => 7, :cols => 35 } %><br />
+    <p class="update-chars" id="update-chars-brand_bio"><%= pluralize(!@user.brand_bio.nil? ? (400 - @user.brand_bio.size) : 400, 'character') -%> left</p>
+</div>
+<div>
+    <%= form.label :brand_special_message, 'Optional Special Message (displayed in your profile)' -%><br />
+    <%= form.text_area :brand_special_message, { :class => 'field', :msd_context => "You can display a message up to 140 characters in your profile.", :rows => 2, :cols => 35 } %><br />
+    <p class="update-chars" id="update-chars-brand_special_message"><%= pluralize(!@user.brand_special_message.nil? ? (140 - @user.brand_special_message.size) : 140, 'character') -%> left</p>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        CharCounters.watchField('brand_bio', 400);
+        CharCounters.watchField('brand_special_message', 140);
+    });
+</script>
+<% end %>
+
+<% end %>
+<div>
+    <%= form.label :password, form.object.new_record? ? nil : "Change password" -%><br />
+    <%= form.password_field :password, { :autocomplete => 'off', :class => 'field', :msd_context => "Choose a password that is at least 4 characters long (and make it good!)" } %>
+</div>
+<div>
+    <%= form.label :password_confirmation, 'Password, again' -%><br />
+    <%= form.password_field :password_confirmation, { :autocomplete => 'off', :class => 'field', :msd_context => "Re-type the password you just chose here" } %>
+</div>
+<div>
+    <%= form.label :time_zone -%><br />
+    <%= form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, :default => 'Eastern Time (US & Canada)' %>
+</div>

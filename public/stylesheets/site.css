@@ -1,0 +1,1386 @@
+/************************************************
+* Reset styles (c) Eric Meyer
+* http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+************************************************/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; } /* remember to define focus styles! */ :focus { outline: 0; } body { line-height: 1; color: black; background: white; } ol, ul { list-style: none; } /* tables still need 'cellspacing="0"' in the markup */ table { border-collapse: separate; border-spacing: 0; } caption, th, td { text-align: left; font-weight: normal; } blockquote:before, blockquote:after, q:before, q:after { content: ""; } blockquote, q { quotes: "" ""; }
+
+/*----------------------------
+ GLOBALS
+----------------------------*/
+body, input, textarea {
+    color: #222;
+    font: 14px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: #e0fdff; /*url(http://s3.amazonaws.com/mysocialdog/beta_banner.png) top left no-repeat;*/
+    text-align: center;
+}
+
+a {
+    color: #559cbe;
+    outline: none;
+    text-decoration: none;
+    border: none;
+}
+
+a:hover {
+    color: #112829;
+}
+
+div.flash, #errorExplanation, .errorExplanation {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: bold;
+    margin-top: 36px;
+    padding-top: 12px;
+}
+
+div.flash.no-top, #errorExplanation, .errorExplanation {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 12px;
+}
+
+div.flash.message, div.flash.notice {
+    color: #6e9904;
+}
+
+div.flash.error, #errorExplanation, .errorExplanation {
+    color: #ff3b00;
+}
+
+.errorExplanation h2 {
+    display: none;
+}
+
+div.blank-slate {
+    background: #ffd;
+    color: #666;
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    line-height: 28px !important;
+}
+
+div.blank-slate.flush {
+    margin-top: 0;
+}
+
+p.msg-send a {
+    line-height: 18px;
+}
+
+#upgrade_notice {
+    background: #fff;
+    margin-top: 36px;
+    padding: 22px 0;
+    text-align: center;
+    background: #da2b25;
+    color: #fff;
+    font-size: 24px;
+}
+
+#upgrade_notice a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/*----------------------------
+ PAGE STRUCTURE
+----------------------------*/
+div.container {
+    width: 900px;
+    margin: 0 auto; /*162px;*/
+    text-align: left;
+    position: relative;
+}
+
+div.container.this-land-is-your-land {
+    margin-bottom: 162px;
+}
+
+div#content {
+    background: #fff;
+    padding: 11px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div#content a {
+    text-decoration: underline;
+}
+
+div#content div.main-col, div#content div.sidebar {
+    float: left;
+}
+
+div#content div.main-col {
+    width: 558px;
+    margin: 14px 20px 0 0;
+}
+
+div#content div.main-col.full {
+    width: 878px;
+    margin-right: 0;
+}
+
+div#content div.sidebar {
+    width: 300px;
+}
+
+div#landscape {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 315px;
+    background: transparent url(http://s3.amazonaws.com/mysocialdog/hills.png) 30% 100% no-repeat;
+    z-index: -1;
+}
+
+div#footer {
+    text-align: center;
+    margin: 7px 0;
+    padding: 6px;
+    background: #fff;
+    font-size: 13px;
+    /*
+    opacity: 0.95;
+    -moz-opacity: 0.95;
+    filter:alpha(opacity=95);
+    */
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div#footer, div#footer a {
+    color: #79aebe;
+}
+
+div#footer a {
+    text-decoration: underline;
+}
+
+div.pages, div.pagination {
+    border-top: 3px solid #f7f9f9;
+    padding-top: 8px;
+    margin-top: 11px;
+}
+
+div.pages a, div.pagination a, div.pagination span {
+    font-size: 13px;
+    padding: 7px;
+    background: #e0fdff;
+    text-decoration: none !important;
+}
+
+div.pagination span {
+    background: #fff;
+}
+
+div.pagination .disabled {
+    color: #ccc;
+}
+
+div.pages a:hover, div.pagination a:hover, div.pagination span.current {
+    background: #222;
+    color: #fff;
+}
+
+div.pages a.previous {
+    float: left;
+}
+
+div.pages a.next {
+    float: right;
+}
+
+/*----------------------------
+ USER STRIPE
+----------------------------*/
+div#user-stripe {
+    text-align: right;
+    margin: 0 3px 18px;
+    font-size: 14px;
+}
+
+div#user-stripe a img {
+    vertical-align: middle;
+}
+
+div#user-stripe a {
+    color: #555;
+    margin-left: 2px;
+    padding: 4px 6px;
+    text-decoration: none;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+}
+
+div#user-stripe a.img {
+    margin: 0;
+    padding: 0;
+    background: none !important;
+    border-radius: none;
+    -moz-border-radius: none;
+    -webkit-border-radius: none;
+}
+
+div#user-stripe a.user {
+    margin: 0;
+}
+
+div#user-stripe a:hover,
+div#user-stripe a.current {
+    background: #ebf0ef;
+    color: #222;
+}
+
+div#user-stripe a:active {
+    background: #222;
+    color: #fff !important;
+}
+
+div#user-stripe a.current {
+    font-weight: bold;
+}
+
+div#user-stripe a.user {
+    color: #222;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/*----------------------------
+ FORM STYLES
+----------------------------*/
+#field_info {
+    font: 14px/18px Georgia, Century, Times, serif;
+    color: #fff;
+    background: #222;
+    padding: 6px 9px;
+    position: absolute;
+    width: 232px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.field_help, .field_help a {
+    font-size: 12px;
+    text-decoration: none !important;
+    color: #888;
+}
+
+.field_help a {
+    margin: 0 2px;
+    font-weight: bold;
+}
+
+form.swanky fieldset div {
+    margin-bottom: 6px;
+}
+
+form.swanky fieldset div.controls {
+    margin-bottom: 0;
+    padding: 6px;
+    background: #f7f9f9;
+}
+
+form.swanky fieldset input.field,
+form.swanky fieldset textarea.field,
+#manage_dog_owners input.field {
+    padding: 6px;
+    font-size: 16px;
+    color: #555;
+    background: #fff;
+    width: 98%;
+    border: 1px solid #9f9f9f;
+}
+
+form.swanky .field.short {
+    width: 28%;
+}
+
+.field.checkbox {
+    width: auto !important;
+}
+
+form.swanky fieldset label {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+form.swanky fieldset p.notes {
+    font-size: 12px;
+    line-height: 14px;
+    padding-top: 5px;
+    color: #79aebe;
+}
+
+/*----------------------------
+ HEADER/NAV
+----------------------------*/
+div#header div#logo a {
+    position: absolute;
+    top: 4px;
+    left: -26px;
+    display: block;
+    width: 151px;
+    height: 151px;
+    background: transparent url(http://s3.amazonaws.com/mysocialdog/logo.png) top left no-repeat;
+    text-indent: -1000em;
+}
+
+div#top-nav {
+    margin: 64px 0 7px;
+    float: right;
+}
+
+div#top-nav ul li {
+    float: left;
+    margin: 0 5px 0 13px;
+}
+
+div#top-nav ul li a {
+    float: left;
+    font-size: 16px;
+    color: #176c8c;
+}
+
+div#top-nav ul li.dim a,
+div#user-stripe a.dim {
+    color: #75bcd5;
+}
+
+div#top-nav ul li a:hover {
+    color: #00a8a6;
+}
+
+div#top-nav ul li.current a {
+    font-weight: bold;
+    color: #222;
+}
+
+/*----------------------------
+ UPDATES
+----------------------------*/
+div#post-update {
+    margin-bottom: 12px;
+}
+
+div#post-update form div.top-bar, div.blank-slate {
+    font: 22px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div#post-update form div.top-bar h3 {
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+div#post-update form div.top-bar select#update-hashtag,
+div#post-update form div.top-bar select#update-username,
+div#post-update form div.top-bar span#update-chars,
+span.update-chars {
+    float: right;
+}
+
+div#post-update form div.top-bar select#private-message-user {
+    margin-left: 5px;
+}
+
+div#post-update form div.top-bar select#update-hashtag {
+    margin: 0 8px;
+}
+
+p#update-chars,
+.update-chars {
+    color: #666;
+    font-weight: bold;
+    text-align: right;
+}
+
+div#post-update form div.top-bar span#update-chars {
+    color: #dfe4e3;
+}
+
+div#post-update form div.top-bar span#update-chars.warning,
+p#update-chars.warning {
+    color: #ffa940;
+}
+
+div#post-update form div.top-bar span#update-chars.over,
+p#update-chars.over {
+    color: #ff3b00;
+}
+
+div#post-update form div.first {
+    margin-bottom: 4px;
+}
+
+div#post-update form textarea {
+    border: 1px solid #dfe4e3;
+    padding: 6px;
+    font: 14px/20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 546px;
+    height: 48px;
+}
+
+div#post-update form div.latest {
+    float: left;
+    padding-top: 3px;
+    font-size: 12px !important;
+    line-height: 14px !important;
+    color: #222;
+    width: 384px;
+}
+
+div#post-update form div.latest strong {
+    font-weight: bold;
+}
+
+div#post-update form div.latest span,
+div#post-update form div.latest span a {
+    color: #999c9c;
+    text-decoration: none;
+}
+
+div#post-update form div.latest span a:hover {
+    text-decoration: underline;
+}
+
+div#post-update form #update-button {
+    float: right;
+    background: #fafafa;
+    color: #222;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    pointer: hand;
+}
+
+div#post-update form button#update-button.disabled {
+    color: #ccc;
+}
+
+/* Deprecated */
+div#post-update form input#update-button {
+    border: none;
+    float: right;
+    display: block;
+    width: 138px;
+    height: 39px;
+    background: transparent url(http://s3.amazonaws.com/mysocialdog/btn_update.png) top left no-repeat;
+    text-indent: -1000em;
+}
+
+div#post-update form input#update-button.pressed {
+    background-position: 0 -43px;
+}
+
+div#post-update form input#update-button.disabled {
+    background-position: 0 -86px;
+}
+
+div.extra-header h2,
+div#profile-top div.info h1,
+div.profile-nobbin div.info h1 {
+    font: bold 22px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-bottom: 16px;
+}
+
+div.extra-header h2 small {
+    font-size: 14px;
+    color: #999c9c;
+}
+
+div.extra-header h2 small a {
+    color: #999c9c;
+}
+
+div#community-zoom {
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #999c9c;
+}
+
+#community-zoom a.miles_current {
+    color: #222;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div.clearfix.push-down {
+    padding-top: 18px;
+}
+
+.load_more {
+    margin: 18px 0 12px;
+    text-align: center;
+}
+
+.load_more a {
+    padding: 8px 36px;
+    color: #777;
+    background: #f3f3f3;
+    text-decoration: none !important;
+    font-size: 16px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.load_more a:hover {
+    color: #222;
+    background: #e7e7e7;
+}
+
+div.update {
+    padding: 5px;
+    border-bottom: 1px solid #dfe4e3;
+}
+
+div.update span.zip, .user-block-new table span.zip {
+    color: #999;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+div.update:hover {
+    background: #fafafa;
+}
+
+div.update.no-bottom {
+    border-bottom: none;
+}
+
+div.update.no-bottom:hover {
+    background: transparent;
+}
+
+div.update.last {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+div.update div.photo, div.update div.body {
+    float: left;
+}
+
+div.update div.photo {
+    width: 59px;
+}
+
+div.update div.photo img,
+img.framed {
+    border: 1px solid #e9f1f1;
+    padding: 2px;
+    background: #fff;
+}
+
+div.update div.body {
+    width: 488px;
+    padding-top: 3px;
+}
+
+div.update.no-photo div.body {
+    width: 544px;
+    padding-left: 8px;
+}
+
+div#post-update form div.latest,
+div.update div.body p.update {
+    font: 13px/20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.update div.body p.meta {
+    font-size: 12px;
+    padding-top: 3px;
+    color: #999;
+}
+
+div.update.no-photo div.body p.meta {
+    text-align: right;
+}
+
+div.update div.body p.meta, div.update div.body p.meta a {
+    color: #999;
+}
+
+div.update div.body p.meta a.delete,
+form fieldset a.cancel,
+#manage_dog_owners a.delete {
+    color: #ff3b00;
+}
+
+div.update div.body p.meta a.delete,
+#manage_dog_owners a.delete {
+    text-decoration: none !important;
+    font-weight: bold;
+}
+
+div#content div.update div.body p.meta a {
+    text-decoration: none;
+}
+
+div#content div.update div.body p.meta a:hover {
+    text-decoration: underline;
+}
+
+span.follow-req a {
+    background: #c00 !important;
+    color: #fff !important;
+    padding: 5px;
+    font-weight: bold;
+    margin-top: -18px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div#content div.sidebar div.follows,
+div#content div.sidebar div.sidebar-footer {
+    margin-top: 16px;
+}
+
+div#content div.sidebar div.follows h4 {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+div#content div.sidebar div.follows a {
+    float: left;
+    margin: 0 5px 5px 0;
+    padding: 0;
+}
+
+div#content div.sidebar div.view-all a {
+    color: #666;
+}
+
+div#content a.rss {
+    background: transparent url(http://s3.amazonaws.com/mysocialdog/rss.png) 0 50% no-repeat !important;
+    padding-top: 3px;
+    padding-left: 17px;
+    color: #666;
+    text-decoration: none !important;
+    font-size: 11px;
+}
+
+/*----------------------------
+ PROFILE
+----------------------------*/
+div#profile-top, div.profile-dogs, div.profile-nobbin {
+    line-height: 16px;
+}
+
+p.follow input {
+    vertical-align: -2px;
+}
+
+p.follow_link {
+    margin: 6px 0;
+}
+
+p.follow_link a {
+    font-size: 16px;
+    line-height: 1;
+    font-weight: bold;
+    background: #e9f1f1;
+    padding: 6px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    text-decoration: none !important;
+    color: #222;
+}
+
+p.follow_link a:hover {
+    background: #222;
+    color: #fff;
+}
+
+p.unfollow a, span.unfollow a {
+    color: #9f9f9f;
+    font-size: 11px;
+}
+
+div#profile-top div.info h1,
+div#profile-top p.zip,
+div.profile-nobbin div.info h1,
+div.profile-nobbin p.zip {
+    line-height: 30px;
+}
+
+div#profile-top div.info h1,
+div.profile-nobbin div.info h1 {
+    margin-bottom: 0;
+}
+
+div#profile-top p.zip,
+div.profile-nobbin p.zip {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+div.profile-dogs {
+    border-bottom: 3px solid #e0fdff;
+}
+
+div#profile-wrap div.left,
+div#profile-wrap div.left div.photo,
+div#profile-wrap div.left div.info,
+div.profile-nobbin.left,
+div.profile-nobbin.left div.photo,
+div.profile-nobbin.left div.info {
+    float: left;
+}
+
+div.profile-nobbin div.info h1 {
+    font-size: 18px;
+}
+
+div#profile-wrap div.left div.photo,
+div.profile-nobbin.left div.photo {
+    margin-right: 8px;
+}
+
+div#profile-wrap div.right,
+div.profile-nobbin.right {
+    float: right;
+}
+
+div#friends-list div.clearfix.friend-gap {
+    margin-bottom: 22px;
+}
+
+/* New profile layout */
+.new-profile.left {
+    float: left;
+    width: 338px;
+}
+
+.new-profile.right {
+    float: right;
+    width: 129px;
+    text-align: right;
+}
+
+.new-profile h1,
+.brand-top h2 {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: bold;
+    margin-top: -6px;
+}
+
+.new-profile-bottom {
+    position: relative;
+    font-size: 11px;
+    line-height: 1;
+    margin-top: 9px;
+    padding: 6px 0;
+    border-top: 2px solid #e0fdff;
+    border-bottom: 2px solid #e0fdff;
+    clear: both;
+}
+
+.new-profile-bottom label, .new-profile-bottom input {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.new-profile-bottom input {
+    vertical-align: -3px;
+}
+
+.new-profile-bottom, .new-profile-bottom a {
+    color: #559cbe;
+}
+
+.new-profile-bottom .lefty {
+    float: left;
+    margin-top: 2px;
+}
+
+.new-profile-bottom .righty {
+    float: right;
+}
+
+.bio-block p {
+    font-size: 13px;
+    color: #176c8c;
+}
+
+/*----------------------------
+ SETTINGS
+----------------------------*/
+table.settings-table {
+    width: 100%;
+}
+
+table.settings-table td {
+    vertical-align: top;
+    width: 49%;
+}
+
+table.settings-table td.bordered {
+    border-left: 3px solid #f7f9f9;
+}
+
+table.settings-table fieldset h3 {
+    font: bold 16px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 18px 0 8px;
+}
+
+table.settings-table fieldset h3.flush {
+    margin-top: 0;
+}
+
+/*----------------------------
+ STATIC PAGES
+----------------------------*/
+#content.page-pages, #content.page-homepage {
+    background: #fff url(http://s3.amazonaws.com/mysocialdog/hills_fade.png) 45% 100% no-repeat;
+    /*padding-bottom: 312px;*/
+    padding-bottom: 180px;
+}
+
+#content.page-homepage {
+    padding-bottom: 312px;
+}
+
+.static_page {
+    margin: 0 18px 18px;
+    font-size: 14px;
+}
+
+.static_page h1 {
+    font: bold 36px/38px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 30px 0 8px;
+}
+
+.static_page h2 {
+    font: bold 20px/24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-bottom: 4px;
+}
+
+.static_page h3 {
+    font: bold 16px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #555;
+}
+
+.static_page table {
+    width: 100%;
+}
+
+.static_page table.push_down {
+    margin-top: 8px;
+}
+
+.static_page table td {
+    vertical-align: top;
+}
+
+.static_page table td.half {
+    width: 48%;
+    padding-right: 2%;
+}
+
+.static_page table td.big {
+    width: 59%;
+    padding-right: 2%;
+}
+
+.static_page table td.small {
+    width: 35%;
+    padding-right: 2%;
+}
+
+.static_page table td p, .static_page table td ul {
+    margin: 4px 0 14px;
+}
+
+.static_page table td p {
+    line-height: 18px;
+}
+
+.static_page table td ul li {
+    padding-bottom: 4px;
+    line-height: 16px;
+    list-style: inside square;
+}
+
+#content.page-homepage .static_page h3 {
+    margin-top: 11px;
+    font-size: 18px;
+    line-height: 22px;
+    color: #559cbe;
+    /*color: #00a8a6;*/
+}
+
+#content.page-homepage .static_page h3 a {
+    color: #559cbe;
+    /*color: #00a8a6;*/
+}
+
+#content.page-homepage .static_page h1 {
+    margin: 3px 0 0 0;
+}
+
+#content.page-homepage .static_page div.video {
+    margin-top: 18px;
+    text-align: left;
+}
+
+#content.page-homepage #flip_login,
+#content.page-search #search_box {
+    background: #dfe4e3;
+    padding: 8px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#content.page-homepage #flip_login {
+    font-size: 16px;
+}
+
+#content.page-search #search_box form fieldset input {
+    margin: 0 !important;
+}
+
+#content.page-homepage #flip_login form fieldset div {
+    margin-bottom: 6px;
+}
+
+#content.page-homepage #flip_login form fieldset input.field,
+#content.page-search #search_box form fieldset input.field {
+    background: #fff;
+    border: 2px solid #ddd;
+    font-size: 18px;
+    margin-top: 3px;
+    padding: 4px;
+    width: 274px;
+}
+
+#content.page-homepage #flip_login form fieldset .smaller {
+    color: #9f9f9f;
+    font-size: 13px;
+}
+
+/* What we offer block */
+#we-offer {
+    background: #e9f1f1;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 20px 0 -120px 170px;
+    padding: 12px 12px 3px;
+    width: 300px;
+    position: relative;
+    font-weight: bold;
+}
+
+#we-offer img.nub {
+    position: absolute;
+    top: -29px;
+    right: 150px;
+}
+
+#we-offer h4 {
+    font-size: 22px;
+}
+
+#we-offer ul li {
+    font-size: 16px;
+    line-height: 20px;
+    list-style: none;
+    color: #6e9904;
+    background: #fff;
+    margin-bottom: 6px;
+    padding: 3px;
+    border-right: 1px solid #dfe4e3;
+    border-bottom: 1px solid #dfe4e3;
+}
+
+/*----------------------------
+ SEARCH
+----------------------------*/
+#search_results {
+    margin-top: 6px;
+}
+
+#search_user_results h3, #brand_message h4 {
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #dfe4e3;
+}
+
+#search_user_results .user_result {
+    margin: 6px 0 8px;
+    color: #222;
+}
+
+#search_user_results .user_result img {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+
+#search_user_results .user_result .zip {
+    font-weight: bold;
+}
+
+/*----------------------------
+ DOGS
+----------------------------*/
+#manage_dog_owners {
+    margin-bottom: 12px;
+    background: #f7f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#manage_dog_owners h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+#manage_dog_owners ul {
+    line-height: 20px;
+}
+
+#manage_dog_owners ul li.you { color: #ccc; }
+#manage_dog_owners ul li.add { margin-top: 10px; }
+
+#manage_dog_owners input.field {
+    width: 300px;
+    font-size: 14px;
+}
+
+.profile-dogs {
+    padding-bottom: 6px;
+}
+
+.profile-dogs h3, h5.users-updates, h3.social_owners {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 9px;
+    color: #808080;
+}
+
+.profile-dogs h3, h3.social_owners {
+    color: #222;
+}
+
+h5.users-updates {
+    margin: 9px 0 3px;
+    font-size: 18px;
+}
+
+.profile-dogs .dog {
+    line-height: 18px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-dogs .dog.last {
+    border-bottom: none;
+}
+
+.profile-dogs .dog h4 {
+    margin-bottom: 4px;
+}
+
+.profile-dogs .dog h4 a {
+    font-size: 18px;
+    font-weight: normal;
+    color: #222;
+    text-decoration: none;
+}
+
+.profile-dogs .dog h4 a:hover {
+    text-decoration: underline;
+}
+
+.profile-dogs .dog a.dog-img {
+    float: left;
+    margin-right: 12px;
+}
+
+.profile-dogs .dog .the_rest {
+    float: left;
+}
+
+.profile-dogs .dog .bio {
+    width: 462px;
+}
+
+.dog_owners {
+    margin-bottom: 12px;
+}
+
+.dog_owner {
+    float: left;
+    width: 279px;
+}
+
+.dog_owner img {
+    vertical-align: middle;
+}
+
+.other_social_dog {
+    float: left;
+    text-align: center;
+    width: 138px;
+    margin-bottom: 12px;
+}
+
+.other_social_dog img {
+    margin-bottom: 4px;
+}
+
+.other_social_dog a.name {
+    text-decoration: none !important;
+}
+
+/*----------------------------
+ BRANDS
+----------------------------*/
+.brand-top {
+    margin-bottom: 18px;
+}
+
+.brand-top table {
+    margin-top: 7px;
+}
+
+.brand-top table tr td {
+    vertical-align: top;
+    font-size: 16px;
+}
+
+.brand-top table tr td p.addr {
+    font: italic 15px/20px Georgia, Century, Times, serif;
+}
+
+.brand-top table tr td p.addr.first {
+    margin-top: 9px;
+}
+
+.profile-brand {
+    margin-bottom: 18px;
+}
+
+div#profile-wrap div.left .profile-brand div.info {
+    float: none !important;
+}
+
+.profile-brand h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+.profile-brand .info {
+    margin-bottom: 12px;
+}
+
+.profile-brand .info p {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+/* Sponsored updates */
+.update.sponsored, .update.sponsored:hover {
+    background: #fff7ca;
+    color: #7a4800;
+}
+
+.update.sponsored p.meta, .update.sponsored p.meta a {
+    color: #777463 !important;
+}
+
+.update.sponsored p.meta span.sponsored-tag {
+    font-weight: bold;
+    background: #fff;
+    color: #7a4800;
+    padding: 1px 3px;
+}
+
+.update.sponsored .photo a, .update.sponsored .photo a img {
+    background: #fff;
+}
+
+#brand_message h4 {
+    font-weight: normal;
+    text-decoration: underline;
+    border-bottom: none;
+    font-size: 14px;
+}
+
+#brand_message {
+    padding: 8px;
+    background: #f7f7f7;
+    line-height: 18px;
+}
+
+/*----------------------------
+ INVITES
+----------------------------*/
+#invite_form {
+    background: #e9f1f1;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 12px;
+}
+
+#invite_form textarea {
+    width: 100%;
+    height: 100px;
+}
+
+/*----------------------------
+ HELP
+----------------------------*/
+.question-answer {
+    margin: 20px 0;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+.question-answer h3.question {
+    margin-bottom: 4px;
+}
+
+.question-answer h3.question a {
+    color: #222;
+    font-size: 18px;
+}
+
+.tour_shot {
+    margin: 10px 0 20px 0;
+    border: 5px solid #e9f1f1;
+    padding: 3px;
+    background: #fff;
+}
+
+/*----------------------------
+ V2 USER LISTS
+----------------------------*/
+.user-block-new {
+    position: relative;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #ddd;
+}
+
+.user-block-new.last {
+    border-bottom: none;
+}
+
+.user-block-new table {
+    position: relative;
+}
+
+.user-block-new table td {
+    vertical-align: middle;
+}
+
+.user-block-new table td.photo {
+    width: 64px;
+}
+
+.user-block-new table td a.profile {
+    font-size: 16px;
+    font-weight: normal;
+    color: #222;
+    text-decoration: none !important;
+}
+
+.user-block-new table td a.profile:hover {
+    text-decoration: underline;
+}
+
+.user-block-new table td.controls {
+    width: 200px;
+}
+
+.user-block-new div.controls-block {
+    /*display: block;*/
+}
+
+.user-block-new div.controls-block a {
+    color: #fff;
+}
+
+.user-block-new table div.controls-block {
+    /*display: block;*/
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #222;
+    padding: 8px;
+    font-size: 12px;
+    color: #fff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.user-block-new span.stamp {
+    color: #999;
+}
+
+.user-block-new p.last-update {
+    padding-top: 7px;
+    color: #666;
+    font-size: 12px;
+}
+
+
+
+
+/*----------------------------
+ SELF-CLEARING FLOATS
+----------------------------*/
+div#header:after,
+div#content:after,
+div.update:after,
+div#post-update form:after,
+div.pages:after,
+div#post-update form div.top-bar:after,
+div#content div.sidebar div.follows:after,
+div#profile-top:after,
+div.clearfix:after,
+.friend_wrapper:after,
+.new-profile:after,
+.profile-dogs .dog:after,
+.new-profile-bottom:after,
+.dog_owners:after,
+#other_social_dogs:after {
+    clear: both;
+    content: ".";
+    display: block;
+    visibility: hidden;
+    height: 0;
+}

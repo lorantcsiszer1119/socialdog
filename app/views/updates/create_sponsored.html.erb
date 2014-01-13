@@ -1,0 +1,28 @@
+<h1>Create Sponsored Update</h1>
+<form action="/updates/create_sponsored" method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    Brand:<br /><%= select :update, :user_id, User.find_all_by_is_brand(true).collect{|k,v| ["#{k.login} - #{k.real_name}", k.id]}, {:selected => params[:user_id].to_i} %><br />
+    <div style="border: 1px solid #222; padding: 10px;">
+        Zipcode:<br />
+        <input type="text" name="zipcode" id="zipcode" value="" />
+        <div id="zipcode_users">
+            Type a zipcode above to search users.
+        </div>
+    </div>
+    Message (max 140 chars):<br /><%= text_field :update, :body, {:onkeyup=>'$("#cnt").html(140 - $("#update_body").val().length);'} %> (<span id="cnt">140</span> left)<br />
+    <%= submit_tag 'Create' %>
+</form>
+<script type="text/javascript" charset="utf-8">
+    var opts = {
+        callback: function(text){
+            $('#zipcode_users').load('/updates/ajax_users_in_zipcode?zipcode=' + $('#zipcode').val(),
+                {
+                    authenticity_token: '<%= form_authenticity_token -%>'
+                });
+        },
+        wait: false,
+        highlight: false,
+        captureLength: -1
+    }
+    $('#zipcode').typeWatch(opts);
+</script>

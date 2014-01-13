@@ -1,0 +1,24 @@
+Validation Clusters
+===================
+
+Validation Clusters allows you to specify multiple validations for a single attribute using a block. It aims to eliminate some redundancy in your ActiveRecord models.
+
+
+Example
+=======
+
+class Person < AR::Base
+  validates_presence_of :name
+  
+  validates_field :bio do |of|
+    of.presence :on => :update
+    of.length   :on => :update, :maximum => 140
+  end
+  
+  # The above block is functionally identical to writing:
+  validates_presence_of :bio, :on => :update
+  validates_length_of   :bio, :on => :update, :maximum => 140
+end
+
+
+Copyright (c) 2009 Kyle Bragger, released under the MIT license

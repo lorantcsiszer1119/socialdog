@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="index,follow" />
+    <meta name="keywords" content="my social dog, dog, twitter, twttr, social, lifestream, microblog, dog, pup, puppy" />
+    <meta name="description" content="My Social Dog is the first social network to connect local dog owners in real-time. It links together neighbors, giving them the ability to chat and set up playdates on the fly." />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title><%= "#{@page_title} - " || '' -%>My Social Dog</title>
+    <%= stylesheet_link_tag 'site', 'facebox' %>
+    <!--[if IE]>
+    <%= stylesheet_link_tag 'ie' %>
+    <![endif]-->
+    <%= javascript_include_tag 'http://s3.amazonaws.com/mysocialdog/jquery-1.3.2.min.js' %>
+    <%= javascript_include_tag 'common', 'facebox' %>
+    <link rel="shortcut icon" href="http://s3.amazonaws.com/mysocialdog/favicon.png" type="image/png" />
+    <% if @rss_in_head %>
+    <link rel="alternate" href="/<%= @rss_in_head_segment -%>" type="application/rss+xml" title="My Social Dog: Feed / <%= @page_title || '' -%>" />
+    <% end %>
+    <script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+    </script>
+    <script type="text/javascript">
+      GS_googleAddAdSenseService("ca-pub-1999610400664858");
+      GS_googleEnableAllServices();
+    </script>
+</head>
+<body class="<% unless current_user -%>top-bump<% end -%>">
+    <% if Rails.env.development? %>
+    <div style="background: #fff; border: 1px solid #222; padding: 5px; position: absolute; top: 1px; right: 1px;">
+        uid: <%= session[:user_id] %><br />
+        fbuid: <%= controller.facebook_session.user.id rescue nil %><br />
+        cur uid: <%= current_user.id rescue nil %><br />
+        points: <%= current_user.points rescue nil -%>
+    </div>
+    <% end %>
+<% if devland? -%>
+<div style="z-index: 1337; background: red; color: #fff; padding: 6px; font-size: 14px; position: absolute; top: 0; left: 100px;">DEVLAND</div>
+<% end -%>
+<div class="container <% unless @no_landscape -%>this-land-is-your-land<% end -%>">
+    <div class="inside-container">
+        <div id="header">
+            <div id="logo">
+                <a href="/">My Social Dog</a>
+            </div>
+            <div id="top-nav">
+                <ul>
+                    <% if current_user %>
+                    <li<% if @cur_nav == 'home' -%> class="current"<% end -%>><a href="/home">Home</a></li>
+                    <li<% if @cur_nav == 'friends' -%> class="current"<% end -%>><a href="/friends">Friends</a><% if current_user.follow_requests.size >= 1 -%><span class="follow-req"><a href="/friend_requests" title="New friend requests"><%= current_user.follow_requests.size -%></a></span><% end -%></li>
+                    <li<% if @cur_nav == 'community' -%> class="current"<% end -%>><a href="/<%= current_user.zipcode -%>">Community</a></li>
+                    <% if true %><li<% if @cur_nav == 'neighbors' -%> class="current"<% end -%>><a href="/neighbors/<%= current_user.zipcode -%>">Neighbors</a></li><% end %>
+                    <li<% if @cur_nav == 'everyone' -%> class="current"<% end -%>><a href="/everyone">Everyone</a></li>
+                    <li<% if @cur_nav == 'search' -%> class="current"<% end -%>><a href="/search">Search</a></li>
+                    <li<% if @cur_nav == 'invite' -%> class="current"<% end -%>><a href="/invite">Invite</a></li>
+                    <li><a href="/pages/help">Help</a></li>
+                    <% else %>
+                    <li><a href="/pages/about">About My Social Dog</a></li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+        <% # The php was: strtolower($this->uri->segment(1, 'homepage')) -%>
+        <div id="content" class="page-<%= @is_homepage ? 'homepage' : (!@page_class.blank? ? @page_class : request.env['REQUEST_PATH'].gsub(/^\//, '')) -%>">
+            <% if current_user %>
+            <div id="user-stripe">
+                <a class="img" href="/<%= current_user.login -%>"><%= image_tag_for_user(current_user, :thumb) -%></a>
+                <a class="user" href="/<%= current_user.login -%>"><%= current_user.login -%></a>
+                <a<% if @cur_nav == 'home' -%> class="current"<% end -%> href="/home">Home</a>
+                <a<% if @cur_nav == 'replies' -%> class="current"<% end -%> href="/replies">Replies</a>
+                <a<% if @cur_nav == 'messages' -%> class="current"<% end -%> href="/messages">Private Messages</a>
+                <a<% if @cur_nav == 'settings' -%> class="current"<% end -%> href="/settings">Settings</a>
+                <%= link_to 'Logout', user_session_path, :method => :delete, :class => 'dim', :onclick => "FB.Connect.logoutAndRedirect('/logout')" %>
+            </div>
+            <% else %>
+            <div id="user-stripe" class="logged-out upsell">
+                <% if false -%>
+                <a class="img" href="/kyle"><img class="framed" src="http://s3.amazonaws.com/mysocialdog/default25.png" alt="kyle" width="25" height="25" /></a>
+                Hey Friend!
+                <% end -%>
+                <a class="user" href="/signup">Sign Up</a>
+                or <a class="user" href="/login">Log In</a>
+            </div>
+            <div style="height: 12px;">&nbsp;</div>
+            <% end %>
+            
+            <% %w{notice error}.each do |fk| %>
+                <% if flash[fk.to_sym] %>
+                <div class="flash <%= fk -%>">
+                    <%=h flash[fk.to_sym] -%>
+                </div>
+                <% end %>
+            <% end %>
+            
+            <script type="text/javascript" charset="utf-8">
+                Flashes.clearFlashes();
+            </script>
+            
+            <!--[if lte IE 6]>
+            <div id="upgrade_notice">
+                Sorry, My Social Dog does not support Internet Explorer 6 or older.<br />Please consider upgrading to a <a href="http://getfirefox.com/">modern web browser</a>.
+            </div>
+            <![endif]-->
+            
+            <%= yield %>
+        </div>
+        <div id="footer">
+            &copy; 2009 Pupster, Inc.
+            / <a href="/pages/about">About</a>
+            / <a href="http://blog.mysocialdog.com/">Blog</a>
+	    / <a href="http://twitter.com/mysocialdog">Twitter</a>
+            / <a href="http://www.facebook.com/pages/My-Social-Dog/109921525821">Facebook</a>
+            / <a href="/pages/press">Press</a>
+            / <a href="/pages/ads">Advertise</a>
+            / <a href="/pages/tour">Tour</a>
+            / <a href="/pages/brands">Brands</a>
+            <% if false %>
+            / <a href="/invite">Invite</a>
+            / <a href="/search">Search</a>
+            / <a href="/pages/help">Help</a>
+            <% end %>
+        </div>
+    </div>
+</div>
+<% unless @no_landscape %>
+<div id="landscape">
+</div>
+<% end %>
+
+<% unless devland? %>
+
+<script src="http://static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">clicky.init(145275);</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/145275ns.gif" /></p></noscript>
+
+<% if false %>
+<script type="text/javascript">
+var _wh = ((document.location.protocol=='https:') ? "https://sec1.woopra.com" : "http://static.woopra.com");
+document.write(unescape("%3Cscript src='" + _wh + "/js/woopra.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<% end %>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1899000-8");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<style type='text/css'>@import url('http://s3.amazonaws.com/getsatisfaction.com/feedback/feedback.css');</style>
+
+<script src='http://s3.amazonaws.com/getsatisfaction.com/feedback/feedback.js' type='text/javascript'></script>
+
+<script type="text/javascript" charset="utf-8">
+    var tab_options = {}
+    tab_options.placement = "right";  // left, right, bottom, hidden
+    tab_options.color = "#222"; // hex (#FF0000) or color (red)
+    GSFN.feedback('http://getsatisfaction.com/my_social_dog/feedback/topics/new?display=overlay&style=question', tab_options);
+</script>
+<% end %>
+
+<%= fb_connect_javascript_tag -%>
+<%= init_fb_connect "XFBML", :js => :jquery -%>
+<script type="text/javascript" charset="utf-8">
+    function after_fb_connect()
+    {
+        FB.ensureInit(function(){
+            FB.Connect.showPermissionDialog('publish_stream', function(x){
+                location.href = '<%= url_for({:controller => "facebook_users", :action => "connect_callback", :only_path => false}) -%>';
+            });
+        });
+    }
+</script>
+
+<% if current_user && current_user.admin? %>
+<div id="admin_block_tiny" style="position: absolute; bottom: 0; right: 0; background: #fff; padding: 5px; border: 2px solid #222; text-align: left;">
+    <a href="#" onclick="$('#admin_block_tiny').hide();$('#admin_block').show();return false;" style="font-size: 22px; font-weight: bold; color: #222; line-height: 1;"><%= image_tag 'admin_plus.png' -%></a>
+</div>
+<div id="admin_block" style="display: none; position: absolute; bottom: 0; right: 0; background: #fff; padding: 5px 10px; border: 2px solid #222; text-align: left; line-height: 18px; width: 300px;">
+    <a href="/admin">Admin</a><br />
+    <% if @user %>
+    <% if @user.is_brand? %><a href="/updates/create_sponsored?user_id=<%= @user.id -%>">Create Sponsored Msg</a> /<% end %>
+    <a onclick="return confirm('Are you sure?');" href="<%= toggle_brand_user_path(@user) -%>"><%= @user.is_brand? ? 'Make user a regular user: ' : 'Make user a brand: ' -%> <%= @user.login -%></a>
+    <% end %>
+    <hr />
+    <a href="#" onclick="$('#admin_block_tiny').show();$('#admin_block').hide();return false;">&times; Close</a>
+</div>
+<% end %>
+<div id="inline-signup"></div>
+
+<script type="text/javascript">
+  GA_googleAddSlot("ca-pub-1999610400664858", "MySocialDog_300x250");
+</script>
+<script type="text/javascript">
+  GA_googleFetchAds();
+</script>
+
+</body>
+</html>

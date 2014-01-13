@@ -1,0 +1,18 @@
+<% unless @updates.empty? %>
+
+<% for update in @updates %>
+<%= render :partial => 'updates/update', :object => update %>
+<% end %>
+<script type="text/javascript" charset="utf-8">
+    Updates.lastID = <%= update.id -%>;
+    <% if @zipcode -%>Updates.zipcode = <%= @zipcode -%><% end -%>;
+    <% if @zoom_miles -%>Updates.miles = <%= @zoom_miles -%><% end -%>;
+</script>
+
+<% if @updates.size == Update::PER_PAGE %>
+<div class="load_more">
+    <a href="#" onclick="return Updates.loadMore(<%= update.id -%>);">Load More&hellip;</a>
+</div>
+<% end %>
+
+<% end %>

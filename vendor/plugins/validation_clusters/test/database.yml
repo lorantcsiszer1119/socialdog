@@ -1,0 +1,14 @@
+mysql:
+  adapter: mysql
+  host: localhost
+  username: root
+  password: chicken54
+  database: validation_clusters_test
+  
+#sqlite:
+#  adapter: sqlite
+#  dbfile: validation_clusters_test.sqlite.db
+
+#sqlite3:
+#  adapter: sqlite3
+#  dbfile: validation_clusters_test.sqlite3.db

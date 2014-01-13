@@ -1,0 +1,47 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2>Edit Dog</h2>
+    </div>
+    <div id="manage_dog_owners">
+        <h3>Add &amp; Remove Owners</h3>
+        <ul>
+            <% for owner in @dog.users %>
+                <% if owner.user_id.to_i == current_user.id %>
+                <li class="you">You</li>
+                <% else %>
+                <li>
+                    <%=h owner.login -%> / <%=h owner.real_name -%>
+                    <a class="delete" href="/dogs/<%= @dog.id -%>/remove_owner?user_id=<%= owner.user_id -%>" onclick="return confirm('Are you sure?');">&times;</a>
+                </li>
+                <% end %>
+
+            <% end %>
+            <li class="add">
+                <form class="swanky" action="/dogs/<%= @dog.id -%>/add_owner" method="post" onsubmit="if ($('#username').val() == ''){ $('#username').focus(); return false;}"><%= hidden_field_tag 'authenticity_token', form_authenticity_token %>
+                    <input class="field" type="text" name="username" id="username" value="" />
+                    <input type="submit" value="Add Owner" />
+                </form>
+            </li>
+        </ul>
+    </div>
+    <% form_for @dog, :url => dog_path, :html => { :class => 'swanky', :multipart => true } do |f| %>
+        <% unless f.object.errors.empty? %>
+        <div class="flash error no-top">
+            <%= f.error_messages %>
+        </div>
+        <% end %>
+        <fieldset>
+            <%= render :partial => "form", :object => f %>
+            <div class="controls">
+                <input type="submit" value="Save Changes" />
+                or <a class="cancel" href="/settings">Cancel</a>
+            </div>
+            <div style="font-size: 12px; margin-top: 24px;">
+                <%= link_to 'Remove this dog', dog_path(@dog), :method => :delete, :confirm => 'Are you totally sure? There is no undo!', :class => 'cancel' %>
+            </div>
+        </fieldset>
+    <% end %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){ $('#real_name').focus(); BioFields.initCounter(); });
+</script>

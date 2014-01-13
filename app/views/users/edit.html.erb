@@ -1,0 +1,164 @@
+<div class="main-col full">
+    <div class="extra-header">
+        <h2>Settings<%= ' For Your Brand Account' if @user.is_brand? -%></h2>
+    </div>
+    <!-- Yes, tables. -->
+    <% form_for @user, :url => account_path, :html => { :class => 'swanky', :multipart => true } do |f| %>
+        <% unless f.object.errors.empty? %>
+        <div class="flash error no-top">
+            <%= f.error_messages %>
+        </div>
+        <% end %>
+        <table class="settings-table" cellspacing="0">
+            <tr>
+                <td style="padding-right: 12px; vertical-align: top;">
+                    <fieldset>
+                        <h3 class="flush">Basic</h3>
+                        <%= render :partial => "form", :object => f %>
+                        
+                        <% if @user.is_brand? %>
+                        <h3>Brand Settings</h3>
+                        <div id="logo-upload">
+                            <%= f.label :logo, 'Your logo (must be at least 300px wide)' -%><br />
+                            <%= f.file_field :logo -%><br />
+                            <p class="notes">Please upload a logo that is at least 300px wide.<br />Also, it must be a PNG, JPG, or GIF, and try to keep it under 2 MB.</p>
+                        </div>
+                        <% end %>
+                        
+                        <h3><img src="/images/twitter_16.png" style="vertical-align: -2px;" /> Link your Twitter Account</h3>
+                        <div class="linked-acct twitter">
+                            <p>
+                            <% unless current_user.twitter_linked? %>
+                            <%= link_to 'Link your Twitter account', :controller => 'twitter_users', :action => 'create' %>
+                            <% else %>
+                            You have linked the account &quot;<strong style="font-weight: bold;"><%= current_user.twitter_user.login -%></strong>&quot; (<%= link_to 'Unlink?', {:controller => 'twitter_users', :action => 'destroy'}, :class => 'rem', :confirm => 'Are you sure?', :method => :post %>)
+                            <% end %>
+                            </p>
+                        </div>
+                        
+                        <h3><img src="/images/facebook_16.png" style="vertical-align: -2px;" /> Link your Facebook Account</h3>
+                        <% unless current_user.facebook_connect_user? %>
+                        <%= fb_login_button("after_fb_connect();") -%>
+                        <% else %>
+                        <p>Your Facebook account is linked.</p>
+                        <% end %>
+                        
+                        <% if false %>
+                        <h3>Privacy</h3>
+                        <div>
+                            <%= f.check_box :private %>
+                            <%= f.label :private, 'Make my profile private' -%>
+                        </div>
+                        <% end %>
+                        
+                        <h3>Email</h3>
+                        <div>
+                            <label for="user_email_pm"><%= f.check_box :email_pm, { :class => 'field checkbox', :msd_context => "Check this box if you'd like to get an email any time another user sends you a Private Message" } -%> Receive Private Messages</label> <span class="field_help">(<a href="#" onclick="return FieldInfo.forField('user_email_pm');">?</a>)</span>
+                        </div>
+                        <div>
+                            <label for="user_email_at"><%= f.check_box :email_at, { :class => 'field checkbox', :msd_context => "Check this box if you'd like to get an email any time another user mentions your username" } -%> Receive @ Alerts</label> <span class="field_help">(<a href="#" onclick="return FieldInfo.forField('user_email_at');">?</a>)</span>
+                        </div>
+                        <div>
+                            <label for="user_email_news"><%= f.check_box :email_news, { :class => 'field checkbox', :msd_context => "Check this box if you'd like to receive our email newsletter" } -%> Receive Weekly Newsletter</label> <span class="field_help">(<a href="#" onclick="return FieldInfo.forField('user_email_news');">?</a>)</span>
+                        </div>
+                        
+                        <h3>Mobile</h3>
+                        <div>
+                            <%= f.label :mobile_number, 'Mobile Number (10 digits, only numbers please)' -%><br />
+                            <%= f.text_field :mobile_number, { :class => 'field short', :msd_context => "Enter your 10-digit mobile number here (no spaces or punctuation please)" } %>
+                        </div>
+                        <div>
+                            <%= f.label :mobile_domain, 'Mobile Service Provider' -%><br />
+                            <%= f.select :mobile_domain, User::MOBILE_DOMAINS.sort.collect {|k,v| [k, v]}, :include_blank => 'Choose your mobile provider' %>
+                        </div>
+                        
+                        <% unless @user.is_brand? %>
+                        <h3>Photo</h3>
+                        <div id="photo-upload">
+                            <%= f.label :avatar, 'Your photo' -%><br />
+                            <%= f.file_field :avatar -%><br />
+                            <p class="notes">Must be a PNG, JPG, or GIF, and try to keep it under 2 MB.<br />Also, square photos work best.</p>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="field checkbox" msd_context="Check this if you'd like to remove your current user photo" name="remove_photo" id="remove_photo" value="1" style="vertical-align: middle;" onchange="UpdatePhotoUploader(this);" /> Remove my photo  <span class="field_help">(<a href="#" onclick="return FieldInfo.forField('remove_photo');">?</a>)</span>
+                        </div>
+                        <% else %>
+                        <div style="height: 24px;">&nbsp;</div>
+                        <% end %>
+                    </fieldset>
+                </td>
+                <td class="bordered" style="padding-left: 12px; vertical-align: top;">
+                    <% unless @user.is_brand? %>
+                    <fieldset>
+                        <h3 class="flush">Your Social Dog<%= @user.dogs.size == 1 ? '' : 's' -%></h3>
+                        <% unless @user.dogs.empty? %>
+                            
+                            <% for dog in @user.dogs %>
+                            <div style="margin-bottom: 12px;">
+                                <a class="img" href="<%= dog_profile_path(@user.login, dog.username) -%>"><%= image_tag_for_dog(dog, :thumb, 'vertical-align: middle;') -%></a>
+                                <% if dog.first_user_id == @user.id %>
+                                <a title="Click to edit" href="<%= edit_dog_path(dog) -%>"><%=h dog.real_name -%></a> (Added by you)
+                                <% else %>
+                                <%=h dog.real_name -%> (Added by someone else)
+                                <% end %>
+                            </div>
+                            <% end %>
+                            
+                            <% if @user.dogs.size < Dog::USER_LIMIT %>
+                            <a style="font-size: 12px; color: #999;" href="<%= new_dog_path -%>">Add another &rarr;</a>
+                            <% else %>
+                            <div class="blank-slate" style="font-size: 12px; margin-top: 0; padding: 3px;">
+                                <h5>Sorry! You&#8217;ve reached the limit of three dogs per person.</h5>
+                            </div>
+                            <% end %>
+                            
+                            <div class="blank-slate" style="background: #eee; padding: 9px;">
+                                <h5 style="font-size: 14px; line-height: 18px;"><strong style="font-weight: bold;">Note:</strong>
+                                To add a dog to your profile that isn&#8217;t yours, just contact their owner; they will be able to add you as another owner.</h5>
+                            </div>
+                            
+                        <% else %>
+                            <div class="blank-slate flush">
+                                <h5>You don&#8217;t have any dogs yet.<br /><a href="<%= new_dog_path -%>">Add your first dog</a>!</h5>
+                            </div>
+                        <% end %>
+                    </fieldset>
+                    <% else %>
+                    <div class="blank-slate flush">
+                        <h5>Interested in advertising opportunities for your brand?<br />
+                            <a href="/pages/brands">Click here for more information on available packages.</a></h5>
+                    </div>
+                    <% end %>
+                </td>
+            </tr>
+        </table>
+        <fieldset>
+            <div class="controls">
+                <input type="submit" value="Save Settings" onclick="$(this).attr('xdisabled','disabled');" />
+                or <a class="cancel" href="/<%= current_user.login -%>">Cancel</a>
+            </div>
+            <div style="font-size: 12px; margin-top: 24px;">
+                <%= link_to 'Delete your account', user_path(@user), :method => :delete, :confirm => 'Are you totally sure? There is no undo! Once you do this, all your updates and data will be removed permanently.', :class => 'cancel' %>
+            </div>
+        </fieldset>
+    <% end %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    UpdatePhotoUploader = function(el)
+    {
+        el = $(el);
+        if (el.attr('checked') == true)
+        {
+            $('#photo-upload input').attr('disabled', 'disabled');
+        }
+        else
+        {
+            $('#photo-upload input').attr('disabled', '');
+        }
+    }
+    $(document).ready(function(){ BioFields.initCounter(); });
+</script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){ FieldInfo.init(); });
+</script>
+<div id="field_info" style="display: none;"></div>

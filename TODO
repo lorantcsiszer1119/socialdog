@@ -1,0 +1,13 @@
+- deleted users showing up in search results
+- actually delete users (soft delete sucks)
+- take care of (or remove) fixmes and todos
+X add lat/lon to each update, push in user's zipcode lat/lon when creating update
+X ...and do the same for users themselves
+- refactor all distance stuff (use haversine)
+- self-service brand sign up
+- rip out all sponsored updates code
+- better user admin
+- rss still doesn't work in webkit/safari
+- if user changes zipcode, update lat/lon should be changed too, right?
+- moar ajax
+- design 404, 500, maint. pages

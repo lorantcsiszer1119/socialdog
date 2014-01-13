@@ -1,0 +1,25 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2>Create&nbsp;Your&nbsp;My&nbsp;Social&nbsp;Dog&nbsp;Account</h2>
+        <p style="padding-bottom: 6px; font-size: 14px; line-height: 18px;">Create <strong style="font-weight: bold;">your</strong> My Social Dog account here. Once you sign up, you can create your dogs&#8217; profiles.</p>
+    </div>
+    <% form_for @user, :url => account_path, :html => { :class => 'swanky' } do |f| %>
+        <% unless f.object.errors.empty? %>
+        <div class="flash error no-top">
+            <%= f.error_messages %>
+        </div>
+        <% end %>
+        <fieldset>
+            <%= render :partial => "form", :object => f %>
+            <div class="controls">
+                <%= f.submit 'Sign Up' %>
+                or <a href="/login">Log In</a>
+            </div>
+        </fieldset>
+    <% end %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){ FieldInfo.init(); });
+    <% if @is_ajax -%>FieldInfo.extraPadding = 66;<% end -%>
+</script>
+<div id="field_info" style="display: none;"></div>

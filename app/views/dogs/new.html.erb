@@ -1,0 +1,22 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2>Add A Dog</h2>
+    </div>
+    <% form_for @dog, :url => dogs_path, :html => { :class => 'swanky', :multipart => true } do |f| %>
+        <% unless f.object.errors.empty? %>
+        <div class="flash error no-top">
+            <%= f.error_messages %>
+        </div>
+        <% end %>
+        <fieldset>
+            <%= render :partial => "form", :object => f %>
+            <div class="controls">
+                <input type="submit" value="Add Dog" />
+                or <a class="cancel" href="/settings">Cancel</a>
+            </div>
+        </fieldset>
+    <% end %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){ $('#real_name').focus(); BioFields.initCounter(); });
+</script>

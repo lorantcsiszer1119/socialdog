@@ -1,0 +1,58 @@
+<% user = user_block %>
+<div class="user-block-new">
+    <table cellspacing="0" width="100%">
+        <tr>
+            <td class="photo">
+                <a href="/<%= user.login -%>"><%= image_tag_for_user(user, :small) -%></a>
+            </td>
+            <td>
+                <a class="profile" href="/<%= user.login -%>"><%=h user.login -%> / <%=h user.real_name -%></a>
+                &nbsp;<span class="zip"><%=h user.zipcode -%></span>
+                <% unless user.bio.blank? -%><p class="last-update"><%=h user.bio -%> <% if false -%><!-- <span class="stamp">(<%= time_ago_in_words user.updates.first.created_at -%> ago)</span> --><% end -%></p><% end -%>
+            </td>
+            <td class="controls">
+                <div class="controls-block" id="controls-<%= user.id -%>">
+                    <% if current_user.id != user.id %>
+
+                    <% if current_user %>
+
+                        <% if current_user.is_following?(user) %>
+                        
+                        <% if false %>
+                        Send Message:
+                        <a href="/home?status=@<%= user.login -%>+YOUR+MESSAGE+HERE">Public</a>
+                        &middot; <a href="/home?status=d+@<%= user.login -%>+YOUR+MESSAGE+HERE">Private</a>
+                        <% end %>
+                        
+                        <% else %>
+                        <a href="/follows/create/<%= user.login -%>" onclick="$(this).hide();$('.folload<%= user.login -%>').show();">Follow <%= user.login -%></a><img class="folload<%= user.login -%>" src="http://s3.amazonaws.com/mysocialdog/loader.gif" alt="Hold on" style="display: none;" />
+                        <% end %>
+
+                    <% else %>
+                    <a href="/login">Log In</a> to follow <%= user.login -%>.
+                    <% end %>
+
+                    <% else %>
+
+                    This is you! <%= link_to 'Edit your profile', edit_account_path %>.
+
+                    <% end %>
+
+                    <% if current_user && current_user.is_following?(user) %>
+                    <% if @your_friends || @cur_nav == 'neighbors' %>
+                    <% fo = current_user.find_follow_object_for(user) %>
+                    
+                    <% if false %>
+                    / Follow on:
+                    <label><input class="updates-by email" type="checkbox" name="user_updates_by_email" rel="<%= user.id -%>" value="1"<% if fo.by_email? -%> checked="checked"<% end -%>/>&nbsp;Email</label>
+                    <label><input class="updates-by sms" type="checkbox" name="user_updates_by_sms" rel="<%= user.id -%>" value="1"<% if fo.by_sms? -%> checked="checked"<% end -%>/>&nbsp;Mobile</label>
+                    <% end %>
+                    
+                    <% end %>
+                    <p class="please-unfollow"><a href="/follows/destroy/<%= user.login -%>" onclick="return confirm('Are you sure?');">Unfollow</a></p>
+                    <% end %>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

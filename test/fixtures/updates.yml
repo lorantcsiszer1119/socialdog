@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+normal:
+  id: 100001
+  body: Hello there
+  user_id: 1
+  posted_via: web
+  
+dm:
+  id: 100002
+  body: d @kyle test
+  user_id: 1
+  posted_via: web
+  
+dm2:
+  id: 100003
+  body: p @kyle test
+  user_id: 1
+  posted_via: web

@@ -1,0 +1,11 @@
+<div>
+    <%= form.label :login, 'Username or Email' -%><br />
+    <%= form.text_field :login, { :class => 'field' } %>
+</div>
+<div>
+    <%= form.label :password -%><br />
+    <%= form.password_field :password, { :class => 'field' } %>
+</div>
+<div>
+    <label><%= form.check_box :remember_me %><%= form.label :remember_me %></label>
+</div>

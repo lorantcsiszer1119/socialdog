@@ -1,0 +1,40 @@
+<div>
+    <%= form.label :real_name -%><br />
+    <%= form.text_field :real_name, {:class => 'field', :onkeyup => 'Dog.updateURLPreview($(this));', :msd_context => 'What\'s your dog\'s name?'} %>
+</div>
+<div id="url_preview">
+    <label>URL:</label><br />
+    <span style="color: #666;">http://www.mysocialdog.com/<%= current_user.login -%>/dog/<span id="url_preview_dog"><%= @dog.username -%></span></span>
+</div>
+<div>
+    <%= form.label :birthday -%><br />
+    <%= form.date_select :birthday, :order => [:month, :day, :year], :start_year => Time.now.year - 20 %>
+</div>
+<div>
+    <%= form.label :breed -%><br />
+    <%= form.text_field :breed, {:class => 'field', :msd_context => 'What\'s your dog\'s breed?'} %>
+</div>
+<div>
+    <label for="border_color">Color:</label><br />
+    <% for bc in Dog::BORDER_COLORS %>
+    <div style="float: left; margin-right: 12px;">
+        <div onmousedown="$('#border_color_<%= bc -%>').click();" style="background: #<%= bc -%>; width: 22px; height: 22px;"><label for="border_color_<%= bc -%>">&nbsp;</label></div>
+        <input type="radio" name="dog[border_color]" id="border_color_<%= bc -%>" value="<%= bc -%>" <% if @dog.border_color == bc || (!@dog.border_color && bc == Dog::BORDER_COLORS.first) -%>checked="checked"<% end -%> />
+    </div>
+    <% end %>
+    <div class="clearfix">&nbsp;</div>
+</div>
+<div>
+    <%= form.label :bio -%><br />
+    <%= form.text_area :bio, { :class => 'field', :rows => 3, :cols => 35, :msd_context => 'Tell us a little about your dog' }%><br />
+    <p id="update-chars"><%= pluralize(!@dog.bio.nil? ? (140 - @dog.bio.size) : 140, 'character') -%> left</p>
+</div>
+<div id="photo-upload">
+    <%= form.label :avatar, 'Photo' -%><br />
+    <%= form.file_field :avatar -%><br />
+    <p class="notes">Must be a PNG, JPG, or GIF, and try to keep it under 2 MB.<br />Also, square photos work best.</p>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){ FieldInfo.init(); });
+</script>
+<div id="field_info" style="display: none;"></div>

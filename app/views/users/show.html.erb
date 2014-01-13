@@ -1,0 +1,182 @@
+<div class="main-col" id="profile-wrap">
+    <% unless current_user %>
+    <div id="signup-upsell" class="blank-slate flush" style="text-align: left; margin: 10px 0 15px;">
+        <h4>Hello! <%= @user.login -%> (<%= @user.real_name -%>) is using My Social Dog to connect with other local dog owners in real-time.<br /><center><a href="/signup?follow=<%= @user.login -%>" onclick="loadSignupInline();return false;">Sign Up Today!</a></center></h4>
+    </div>
+    <% end %>
+    <div id="profile-top" class="<%= 'brand' if @user.is_brand? -%>">
+        <div class="left">
+            <% unless @user.is_brand? %>
+            <div class="photo">
+                <a href="/<%= @user.login -%>"><%= image_tag_for_user(@user, :medium) -%></a>
+            </div>
+            <!-- Start new profile -->
+            <div class="new-profile col left">
+                <h1><%=h @user.login -%> / <%=h @user.real_name -%></h1>
+                <div class="bio-block"><%= auto_link @user.bio -%></div>
+            </div>
+            <div class="new-profile col right">
+                <p class="zip">Zip Code: <%= @user.zipcode -%></p>
+            </div>
+            <% else %>
+            <div class="brand-top">
+                <h2><%=h @user.real_name -%></h2>
+                <table width="100%" cellspacing="0">
+                    <tr>
+                        <td><%= image_tag_for_brand_logo(@user, :original, {:width => 245}) %></td>
+                        <td>
+                            <% if @user.brand_website? %>
+                            <p>Website: <%= link_to h(@user.brand_website), @user.brand_website -%></p>
+                            <% end %>
+                            <p class="addr first"><%=h @user.brand_addr1 -%></p>
+                            <p class="addr"><%=h @user.brand_addr2 -%></p>
+                            <p class="addr"><%=h "#{@user.brand_city}," unless @user.brand_city.blank? -%> <%=h @user.brand_state -%> <%=h @user.zipcode -%></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="profile-brand" style="margin-top: 12px; border-bottom: none;">
+                <div class="info">
+                    <%= simple_format @user.brand_bio if @user.brand_bio? %>
+                </div>
+            </div>
+            <% end %>
+            <div class="clearfix">&nbsp;</div>
+            <div class="new-profile-bottom" style="width: 555px">
+                <% if current_user %>
+                <% if current_user.id != @user.id %>
+                <% if current_user.is_following?(@user) %>
+                <!-- Following -->
+                <div class="lefty">
+                    Message <%= @user.login -%>:
+                    <a href="/home?status=@<%= @user.login -%>+YOUR+MESSAGE+HERE">Public Message</a>
+                    &nbsp;<a href="/home?status=d+@<%= @user.login -%>+YOUR+MESSAGE+HERE">Private Message</a>
+                </div>
+                <div class="righty">
+                    Also follow on:
+                    <% fo = current_user.find_follow_object_for(@user) %>
+                    <label><input class="updates-by email" type="checkbox" name="user_updates_by_email" rel="<%= @user.id -%>" value="1"<% if fo.by_email? -%> checked="checked"<% end -%>/>&nbsp;Email</label>&nbsp;&nbsp;
+                    <label><input class="updates-by sms" type="checkbox" name="user_updates_by_sms" rel="<%= @user.id -%>" value="1"<% if fo.by_sms? -%> checked="checked"<% end -%>/>&nbsp;Mobile</label>&nbsp;&nbsp;
+                    <span class="unfollow">&nbsp;&nbsp;<a href="/follows/destroy/<%= @user.login -%>" onclick="return confirm('Are you sure?');">Unfollow</a></span>
+                </div>
+                <% else %>
+                <!-- Not following -->
+                <% unless current_user.follow_pending?(@user) %>
+                <p class="follow_link"><a href="/follows/create/<%= @user.login -%>" onclick="$(this).hide();$('.folload<%= @user.login -%>').show();">Follow <%= @user.login -%></a><img class="folload<%= @user.login -%>" src="http://s3.amazonaws.com/mysocialdog/loader.gif" alt="Hold on" style="display: none;" /></p>
+                <% else %>
+                You have requested to follow <%= @user.login -%>, but they have not approved it yet.
+                <% end %>
+                <% end %>
+                <% else %>
+                <!-- Logged in and your profile -->
+                <p><a href="/settings">Edit your profile</a></p>
+                <% end %>
+
+                <% else %>
+                <!-- Not logged in -->    
+                <a href="/login">Log In</a> to follow <%= @user.login -%>.
+                <% end %>
+            </div>
+            <!-- End new profile -->
+        </div>
+    </div>
+
+    <% if /(webkit|safari)/i =~ request.env['HTTP_USER_AGENT'].try(:downcase) %>
+    <style type="text/css" media="all">
+        .new-profile-bottom input { vertical-align: 0; }
+    </style>
+    <% end %>
+    
+    <div style="height: 1px;">&nbsp;</div>
+    <% unless @user.is_brand? || (@user.private? && current_user != @user) %>
+    <div class="profile-dogs" style="margin-top: 12px; <% if @user.dogs.empty? -%>border-bottom: none;<% end -%>">
+        <% unless @user.dogs.empty? %>
+            <h3>My Social Dog<%= @user.dogs.size == 1 ? '' : 's' -%></h3>
+            <% for dog in @user.dogs %>
+                <%= render :partial => 'dogs/dog', :object => dog %>
+            <% end %>
+        <% end %>
+    </div>
+    <% end %>
+
+    <% if current_user %>
+
+    <% if !@user.private? || (@user.private? && (current_user == @user || current_user.is_following?(@user))) %>
+    <% @single_user = true %>
+    <h5 class="users-updates"><%=h @user.real_name.blank? ? @user.login : @user.real_name -%>&#8217;s Updates</h5>
+
+    <%= render :partial => 'updates/updates' %>
+    
+    <script type="text/javascript" charset="utf-8">
+        Updates.userID = <%= @user.id -%>;
+    </script>
+
+    <% else %>
+    
+        <% if !current_user.is_following?(@user) && !current_user.follow_pending?(@user) %>
+    
+        <div class="blank-slate">
+            You must <a href="/follows/create/<%= @user.login -%>">be <%= @user.login -%>'s friend</a><br />before you can see&nbsp;their&nbsp;updates.
+        </div>
+        
+        <% elsif current_user.follow_pending?(@user) %>
+        
+        <div class="blank-slate">
+            Your follow request has been sent<br />but <%= @user.login -%> has not approved it yet.
+        </div>
+        
+        <% end %>
+    
+    <% end %>
+    
+    <% else %>
+    
+    <% if @user.private? %>
+    <!-- not logged in and private -->
+    <div class="blank-slate">
+        <a href="/signup">Sign Up</a>
+        or <a href="/login">Log In</a> see <%=h @user.login -%>'s updates.
+    </div>
+    <% else %>
+    
+    <!-- not logged in, public profile -->
+    <% @single_user = true %>
+    <h5 class="users-updates"><%=h @user.real_name.blank? ? @user.login : @user.real_name -%>&#8217;s Updates</h5>
+    
+    <% @no_load_more = true %>
+    <%= render :partial => 'updates/updates' %>
+    
+    <script type="text/javascript" charset="utf-8">
+        Updates.userID = <%= @user.id -%>;
+    </script>
+    
+    
+    <% end %>
+    
+    <% end %>
+</div>
+<div class="sidebar">
+    <% @show_brand_message = true %>
+    <%= render(:partial => 'shared/sidebar', :object => @user, :as => :sidebar_user) if current_user %>
+    <% unless current_user %>
+    <% @we_offer_inline = true %>
+    <%= render :partial => 'shared/we_offer' %>
+    <% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    Follows.initFollowBy('<%= form_authenticity_token -%>');
+</script>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        loadSignupInline = function()
+        {
+            jQuery.facebox(function(){
+                $.get('/signup?ajax=1&follow=<%= @user.login -%>', function(data){
+                    $.facebox(data);
+                });
+            });
+        }
+    });
+</script>

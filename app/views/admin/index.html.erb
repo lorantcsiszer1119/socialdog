@@ -1,0 +1,50 @@
+<h1>Admin</h1>
+
+<h2>Users</h2>
+
+<form action="/admin" method="get">
+    <input type="text" name="q" value="<%=h params[:q].to_s -%>" />
+    <%= submit_tag 'Find users' %>
+    or <a href="/admin">See all users</a>
+</form>
+
+<% for user in @users %>
+<div class="user">
+    <h3><a href="/<%= user.login -%>"><%= user.real_name -%></a> (username: <%= user.login -%>)</h3>
+    <%= pluralize(user.updates.size, 'Update') -%><br />
+    <%= pluralize(user.followers.size, 'Followers') -%><br />
+    Change username?
+    <%= form_tag '/admin/change_username' %>
+        <%= hidden_field_tag :id, user.id %>
+        <%= text_field_tag :login, user.login %>
+        <%= submit_tag 'Change - BE CAREFUL' %><br />
+        <% unless user.deleted_at? %>
+        <%= link_to 'Delete user?', "/admin/destroy/#{user.id}", :method => :delete, :confirm => 'Are you totally sure? There is no undo! Once you do this, there is no going back.', :class => 'cancel' %>
+        <% else %>
+        <%= link_to 'Restore user?', "/admin/restore/#{user.id}", :method => :post, :class => 'cancel' %>
+        <% end %>
+    </form>
+</div>
+<% end %>
+
+<%= will_paginate @users unless @users.empty? %>
+
+<style type="text/css" media="screen">
+    h1 {
+        margin-top: 30px;
+        font-size: 200%;
+        font-weight: bold;
+    }
+    
+    h2, div.user h3 {
+        margin: 10px 0 5px;
+        font-size: 150%;
+        font-weight: bold;
+    }
+    
+    div.user {
+        margin: 10px 0;
+        line-height: 18px;
+        border-bottom: 2px solid #ccc;
+    }
+</style>

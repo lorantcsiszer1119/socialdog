@@ -1,0 +1,77 @@
+<div class="main-col">
+    <% unless @extra_header.blank? %>
+    <div class="extra-header">
+        <% if @zoom_miles %>
+        <h2>Updates within <%=h @zoom_miles -%> miles of <%= @zipcode -%></h2>
+        <% else %>
+        <h2><%=h @extra_header -%></h2>
+        <% end %>
+        <% if @cur_nav == 'community' -%>
+        <div id="community-zoom">
+            Show updates within:
+            <% %w{2 5 10 20 50}.each do |miles| %>
+            <% if miles.to_i > 2-%>/ <% end -%><a class="<% if @zoom_miles == miles.to_i -%>miles_current<% end -%>" href="?miles=<%= miles -%>"><%= miles -%> miles</a>
+            <% end %>
+        </div>
+        <% end %>
+    </div>
+    <% end %>
+    
+    <% if current_user %>
+    <% unless @no_post_form %>
+    <div id="post-update">
+        <% form_for @update, :url => create_update_path, :html => { :onsubmit => "UpdateForm.disable();$('#update-body').attr('readonly','readonly');" } do |f| %>
+            <input type="hidden" name="from" value="<%= request.path -%>" />
+            <input type="hidden" name="force_reply_to_user" id="force_reply_to_user" value="<%= params[:force_reply_to_user] || '' -%>" />
+            <input type="hidden" name="force_last_update_id" id="force_last_update_id" value="<%= params[:force_last_update_id] || '' -%>" />
+            <div class="top-bar">
+                <h3><label for="update-body">Play time?</label></h3>
+                <span id="update-chars">140</span>
+                <select id="update-hashtag" onchange="UpdateForm.chooseHashTag();">
+                    <option value="" selected="selected">Tag this update with&hellip;</option>
+                    <% %w{news review advice dogpark vet petstore groomer services dogwalker}.sort.each do |ht| %>
+                    <option value="<%= ht -%>"><%= ht -%></option>
+                    <% end %>
+                </select>
+                <select id="update-username" onchange="UpdateForm.chooseReplyTo();">
+                    <option value="" selected="selected">Reply to a friend&hellip;</option>
+                    <% current_user.follows.each do |f| %>
+                    <option value="<%= f.login -%>"><%= f.login -%></option>
+                    <% end %>
+                </select>
+            </div>
+            <div class="first">
+                <textarea name="update[body]" id="update-body" rows="3" cols="35"><%=h params[:status] || '' -%></textarea>
+            </div>
+            <% unless current_user.updates.empty? %>
+            <div class="latest">
+                <strong>Latest:</strong> <%=h current_user.updates.first.body -%>
+                <span><%= time_ago_in_words current_user.updates.first.created_at -%> ago</span>
+            </div>
+            <% end %>
+            <div>
+                <input type="submit" value="Post Update" id="update-button" /><br />
+            </div>
+            <div style="margin-top: 32px; text-align: right;">
+                <% if current_user.twitter_linked? -%><label><input type="checkbox" value="1" name="send_twitter" /><img src="/images/twitter_16.png" style="vertical-align: -4px;" /> Send to Twitter?</label><% end -%>
+                <% if current_user.facebook_connect_user? -%><label><input type="checkbox" value="1" name="send_facebook" /><img src="/images/facebook_16.png" style="vertical-align: -4px;" /> Send to Facebook?</label><% end -%>
+            </div>
+        <% end %>
+    </div>
+    <% end %>
+    <% end %>
+
+    <%= render :partial => 'updates/updates' %>
+</div>
+<div class="sidebar">
+    <% @user = current_user %>
+    <%= render :partial => 'shared/sidebar', :object => @user, :as => :sidebar_user %>
+</div>
+<script type="text/javascript" charset="utf-8">
+    UpdateForm.init();
+    $(document).ready(function(){
+        <% unless params[:status].blank? %>
+        UpdateForm.refresh();
+        <% end %>
+    });
+</script>

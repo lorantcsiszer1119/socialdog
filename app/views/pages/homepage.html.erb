@@ -1,0 +1,46 @@
+<div class="static_page">
+    <table class="push_down">
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="big">
+                <h1>Welcome to My Social Dog!</h1>
+                <h2>Helping Local Dog Owners Connect in Real-Time</h2>
+                <h3>My Social Dog is the first social network to connect local dog owners in real-time. It links together neighbors, giving them the ability to chat and set up playdates on the fly. Learn more <a href="/pages/about">about us</a>, <a href="/pages/tour">take the tour</a> or <a href="/signup">sign up</a>.</h3>
+                <%= render :partial => 'shared/we_offer' %>
+                <% if false %>
+                <div class="video">
+                    <object width="470" height="264"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=2549809&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=00adef&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=2549809&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=00adef&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="470" height="264"></embed></object><!-- <p><a href="http://vimeo.com/2549809">Kai</a> from <a href="http://vimeo.com/empirebegins">Empire</a> on <a href="http://vimeo.com">Vimeo</a>.</p> -->
+                </div>
+                <% end %>
+            </td>
+            <td class="small">
+                <div id="flip_login">
+                    <% form_for UserSession.new, :url => user_session_path do |f| %>
+                        <fieldset>
+                            <%= render :partial => "user_sessions/form", :object => f %>
+                            <div class="controls">
+                                <input type="submit" value="Log In" />
+                                or <a href="/signup" onclick="loadSignupInline();return false;">Sign Up</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="smaller" href="/password_resets/new">Lost your password?</a>
+                            </div>
+                        </fieldset>
+                    <% end %>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $('#login').focus();
+        loadSignupInline = function()
+        {
+            jQuery.facebox(function(){
+                $.get('/signup?ajax=1', function(data){
+                    $.facebox(data);
+                });
+            });
+        }
+    });
+</script>

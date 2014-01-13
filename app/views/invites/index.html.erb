@@ -1,0 +1,68 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2 style="font-size: 18px; line-height: 22px;">Invite your friends, neighbors and colleagues to join. The more connections you have, the more opportunities for you and your dog to be social!</h2>
+        <!--
+        <div id="community-zoom" style="color: #222;">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </div>
+        -->
+    </div>
+    <div id="invite_form">
+        <% form_for @invite, :url => invites_path, :html => {:class => 'swanky'} do |f| %>
+        <fieldset>
+            <div>
+                <label for="emails">Your friends&#8217; email addresses, one per line:</label><br />
+                <%= text_area_tag :emails %>
+            </div>
+            <div>
+                <h4>Here is what they&#8217;ll see:</h4>
+                <blockquote>
+                    <% @from_user = current_user %>
+                    <%= simple_format Invite::DEFAULT_MESSAGE.gsub(/\{login\}/, @from_user.login).gsub(/\{real_name\}/, @from_user.real_name).gsub(/\{message\}/, '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background: #ffb;">(Your optional message will appear here)</span>') %>
+                </blockquote>
+                <style type="text/css" media="screen">
+                    blockquote {
+                        margin-top: 12px;
+                        background: #fff;
+                        padding: 8px;
+                        border-right: 1px solid #ddd;
+                        border-bottom: 1px solid #ddd;
+                    }
+                    blockquote p {
+                        margin-bottom: 18px;
+                    }
+                </style>
+            </div>
+            <div>
+                <%= f.label :message, 'Optional Message:' -%><br />
+                <%= f.text_area :message %>
+            </div>
+            <div>
+                <%= f.submit 'Send Invites' %>
+            </div>
+        </fieldset>
+        <% end %>    
+    </div>
+</div>
+<div class="sidebar">
+    <div id="search_user_results">
+        <br /><br />
+        <h3 style="color: #ccc; font-weight: normal; margin-bottom: 18px; border-bottom: none;">More ways to invite your friends<br />coming soon!</h3>
+        <% unless @invites.empty? %>
+        <h3>Previously Sent Invites</h3>
+        <% for invite in @invites %>
+        <div class="user_result">
+            <% if invite.used? -%>
+                <a href="/<%= invite.invited_user.login -%>"><%= image_tag_for_user(invite.invited_user, :thumb) %></a>
+                <a href="/<%= invite.invited_user.login -%>"><%= invite.invited_user.login -%></a> / <span class="name"><%= invite.invited_user.real_name -%></span> <span style="font-size: 11px; color: #6e9904;">used!</span>
+            <% else %>
+                <%= invite.email %> <span style="font-size: 11px; color: #bbb;">unused</span>
+            <% end %>
+        </div>
+        <% end %>
+        <% end %>
+    </div>
+    <% @no_rss = @no_friends = true %>
+    <% @user = current_user %>
+    <%= render :partial => 'shared/sidebar', :object => @user, :as => :sidebar_user %>
+</div>

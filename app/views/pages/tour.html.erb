@@ -1,0 +1,24 @@
+<%
+@qa = [
+    ["Stay Up To Date All in One Page", "My Social Dog's home view allows you to see all of the updates for the neighbors you are following. Feel free to chime in on the conversation or create your own update.", 'home'],
+    ["Want to Talk Privately?", "Sometimes you just want to send a direct or private message to your neighbor. Don't worry, we won't tell ;)", 'pm'],
+    # TODO email updates
+    ["Stay As Local As You Want", "Start with your Zipcode and expand out with our Community page that allows you to see everyone around you on My Social Dog as far as 50 miles away.", 'com'],
+    ["Do Neighbors Follow You or Your Dog?", "My Social Dog is about connecting neighbors for the benefit of their dogs. Dog owners follow each other, but we have a dog profile that will help your neighbors remember your dog and their name.", 'dog'],
+    ["Are You a Brand and a Neighbor?", "Sometimes it's good to stand out and say \"Hi, I'm not just a neighbor but I have something to offer\". My Social Dog will allow you not only to differentiate yourself but also to make sure people can find you!", 'brand']
+]
+%>
+<div class="static_page">
+    <h1>My Social Dog: The Tour</h1>
+    <% for faq in @qa %>
+    <% slug = faq.first.downcase.gsub(/[^a-zA-Z0-9\s]+/i, '').gsub(/\s+/, ' ').gsub(/\s/, '_') %>
+    <div class="question-answer">
+        <h3 class="question"><a href="#<%= slug -%>"><%=h faq.first -%></a></h3>
+        <%= simple_format faq[1] %>
+        <img class="tour_shot" alt="<%=h faq.first -%>" src="http://s3.amazonaws.com/mysocialdog/tour/tour_<%= faq.last -%>.png" width="99%" />
+    </div>
+    <% end %>
+</div>
+<style type="text/css" media="screen">
+    #content.page-pages { padding-bottom: 312px; }
+</style>

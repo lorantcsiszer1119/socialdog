@@ -1,0 +1,26 @@
+<div id="we-offer">
+    <img class="nub" src="http://s3.amazonaws.com/mysocialdog/nub.png" />
+    <h4>What we offer:</h4>
+    <ul>
+        <li>Stay connected to local dog owners</li>
+        <li>Meet new neighbors who are dog owners</li>
+        <li>Set up play dates, review local services and ask for advice</li>
+    </ul>
+</div>
+<% if @we_offer_inline %>
+<style type="text/css" media="screen">
+    #we-offer {
+        margin: 0 !important;
+        position: relative !important;
+        width: 278px;
+    }
+    
+    #we-offer img {
+        right: 95px !important;
+    }
+    
+    #we-offer ul {
+        margin-top: 5px;
+    }
+</style>
+<% end %>

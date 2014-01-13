@@ -1,0 +1,41 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2>Friend Requests</h2>
+    </div>
+    <div id="friends-list">
+        <% unless @requests.empty? %>
+        
+        <% for follow in @requests %>
+        <% user = User.find(follow.user_id) %>
+        
+        <div class="friend_wrapper">
+            <div class="friend profile-nobbin left">
+                <div class="photo">
+                    <a href="/<%= user.login -%>"><%= image_tag_for_user(user, :small) -%></a>
+                </div>
+                <div class="info">
+                    <h1><%=h user.login -%> / <%=h user.real_name -%></h1>
+                    <% if current_user.id != user.id %>
+                    
+                    <% if current_user %>
+                    
+                        <a href="/follows/approve?id=<%= follow.id -%>">Approve</a> or <a href="/follows/deny?id=<%= follow.id -%>">Deny</a>
+
+                    <% end %>
+                    
+                    <% end %>
+                </div>
+            </div>
+            <div class="clearfix friend-gap">&nbsp;</div>
+        </div>
+        <% end %>
+        
+        <% else %>
+        No friend requests.
+        <% end %>
+    </div>
+</div>
+<div class="sidebar">
+    <% @no_friends = true; @user = current_user; @no_rss = true; %>
+    <%= render(:partial => 'shared/sidebar', :object => @user, :as => :sidebar_user) if current_user %>
+</div>

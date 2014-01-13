@@ -1,0 +1,9 @@
+<div class="dog last">
+    <a class="dog-img img" href="<%= dog.permalink(@user) -%>"><%= image_tag_for_dog(dog, :medium) -%></a>
+    <div class="the_rest">
+        <h4><a href="<%= dog.permalink(@user) -%>"><%=h dog.real_name -%></a></h4>
+        <span style="color: #176c8c;">Birthday: <%= dog.birthday.strftime('%m/%d/%Y') -%></span><br />
+        <span style="color: #176c8c;">Breed: <%=h dog.breed.capitalize -%></span><br />
+        <div class="bio" style="color: #176c8c;"><%= simple_format dog.bio -%></div>
+    </div>
+</div>

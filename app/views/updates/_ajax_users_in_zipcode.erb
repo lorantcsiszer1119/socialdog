@@ -1,0 +1,6 @@
+<%= pluralize(@users.size, 'User') %><br />
+<a href="#" onclick="$('input.chk').attr('checked', 'checked'); return false;">Select all?</a><br />
+<% for user in @users %>
+<label><input type="checkbox" name="user_ids[]" class="chk" value="<%= user.id -%>" />
+    <%=h user.login -%></label><br />
+<% end %>

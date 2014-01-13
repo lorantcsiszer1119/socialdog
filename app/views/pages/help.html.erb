@@ -1,0 +1,27 @@
+<%
+@qa = [
+    ['What is My Social Dog?', 'My Social Dog provides a great way to stay in touch with the owners of the dogs your pet connects with, without having to exchange personal information on the street; get locals\' opinions about the best groomers, dog walkers, and dog-friendly shops in your area; and talk about your dogs and the local issues that affect them.'],
+    ["How do I find my neighbors?", "When you create an account, you select your zip code, where you’ll hopefully see some familiar faces. You can also search for people by name or username, or invite friends via email. Once you've found your friends, follow them to start getting their updates."],
+    ["What does it mean to follow someone on My Social Dog?", "Following someone simply means receiving their updates. When you follow someone, every time they post a new message, it will appear in your <a href=\"/home\">home page</a>. New messages are added to your home page as people post them, so you always get the updates in real-time. When you log in, you can see what the latest updates are. My Social Dog offers other ways to follow people too: you can choose to get updates from certain people on your phone!"],
+    ["What are @Replies?", "<img src=\"http://s3.amazonaws.com/mysocialdog/atreply.png\" /><br />You can publically message someone by using an @reply, simply insert an “@” sign before that person’s username and you’ll be able to message them regardless of whether or not you’re following one another. All of your replies are visible in the replies tab of your home page sidebar."],
+    ["Can I edit or delete an update once I post it?", "You can delete an update by clicking the \"x\" on the right end of the update, but you can't make changes."],
+    ["How do I report spam?", "Report spam on our <a href=\"/pages/contact\">Contact Us</a> page. We'll look into it right away!"],
+    ["How do I send someone a private message?", "A private message can only be sent by someone you follow, and is a message that only the author and recipient can view. Just use \"P @username\" in the beginning of your update or go to the \"Private Messages\" tab at the top of your page, select the user you’d like to privately message, and send away."],
+    ["How do I update from my mobile device?", "It's rather simple once you get used to it. Just send a text message to +1 (415) 513-1364 &ndash; it's just like texting a friend!"],
+    ["What's that Feedback button on the right side?", "Get Satisfaction is a great site that people use to help each other figure out problems on My Social Dog. They call it \"people powered customer service\" because people are helping each other solve problems there. If you're looking for help using My Social Dog from other My Social Dog users, this is a great resource."],
+    ["Who Do I Contact for Help?", "Use our <a href=\"/pages/contact\">Contact Us</a> page and we'll respond right away!"]
+]
+%>
+<div class="static_page">
+    <h1>Help &amp; FAQs</h1>
+    <% for faq in @qa %>
+    <% slug = faq.first.downcase.gsub(/[^a-zA-Z0-9\s]+/i, '').gsub(/\s+/, ' ').gsub(/\s/, '_') %>
+    <div class="question-answer">
+        <h3 class="question"><a href="#<%= slug -%>"><%=h faq.first -%></a></h3>
+        <%= simple_format faq.last %>
+    </div>
+    <% end %>
+</div>
+<style type="text/css" media="screen">
+    #content.page-pages { padding-bottom: 312px; }
+</style>

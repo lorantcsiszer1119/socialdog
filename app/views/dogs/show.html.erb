@@ -1,0 +1,66 @@
+<div class="main-col" id="profile-wrap">
+    <div class="profile-dogs" style="margin-bottom: 12px; margin-top: 0;">
+        <%= render :partial => 'dog', :object => @dog %>
+    </div>
+    <h3 class="social_owners">My Social Owner<%= @dog.users.size == 1 ? '' : 's' -%></h3>
+    
+    <!-- Owners -->
+    <% unless @dog.users.empty? %>
+    
+        <% cnt = 0; idx = 0 %>
+        <% for owner in @dog.users %>
+        <%      cnt = (cnt == 2) ? 1 : (cnt + 1) %>
+        <%      idx += 1 %>
+        
+            <% if cnt == 1 %>
+            <div class="dog_owners">
+            <!-- .dog_owners -->
+            <% end %>
+        
+                <div class="dog_owner">
+                    <a href="/<%= owner.login -%>"><%= image_tag_for_user(owner, :small) -%></a>
+                    <a href="/<%= owner.login -%>"><%=h owner.login -%></a>
+                    / <%=h owner.real_name -%>
+                </div>
+            
+            <% if cnt == 2 || idx == @dog.users.size %>
+            <!-- /.dog_owners -->
+            </div>
+            <% end %>
+        
+        <% end %>
+    
+    <% end %>
+    
+    <!-- Other dogs in the family -->
+    <% unless @family_dogs.empty? %>
+    
+        <div class="clearfix">&nbsp;</div>
+        <h3 class="social_owners">My Social Dog Family</h3>
+        <div class="profile-dogs" style="margin-bottom: 12px; margin-top: 0; border-bottom: none;">
+        <% for fam_dog in @family_dogs %>
+            <%= render :partial => 'dog', :object => fam_dog, :as => 'dog' %>
+        <% end %>
+        </div>
+        
+    <% end %>
+    
+    <!-- Other social dogs -->
+    <% unless @other_dogs.empty? %>
+        
+        <h3 class="social_owners">Other Social Dogs I Play With</h3>
+        <div id="other_social_dogs">
+        <% for other_dog in @other_dogs %>
+            <div class="other_social_dog">
+                <a class="dog-img img" href="<%= other_dog.permalink(other_dog.primary_owner) -%>"><%= image_tag_for_dog(other_dog, :small) -%></a><br />
+                <a class="name" href="<%= other_dog.permalink(other_dog.primary_owner) -%>"><%=h other_dog.real_name -%></a>
+            </div>
+        <% end %>
+        </div>
+        
+    <% end %>
+</div>
+<div class="sidebar">
+    <% @no_rss = true %>
+    <%= render(:partial => 'shared/sidebar', :object => @user, :as => :sidebar_user) if current_user %>
+</div>

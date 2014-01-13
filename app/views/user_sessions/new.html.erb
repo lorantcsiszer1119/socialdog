@@ -1,0 +1,20 @@
+<div class="main-col">
+    <div class="extra-header">
+        <h2>Log In</h2>
+    </div>
+    <% form_for @user_session, :url => user_session_path, :html => { :class => 'swanky' } do |f| %>
+        <% unless f.object.errors.empty? %>
+        <div class="flash error no-top">
+            <%= f.error_messages %>
+        </div>
+        <% end %>
+        <fieldset>
+            <%= render :partial => "user_sessions/form", :object => f %>
+            <div class="controls">
+                <%= f.submit 'Log In' %>
+                or <a href="/signup">Sign Up</a>
+                / <a href="/password_resets/new">Lost your password?</a>
+            </div>
+        </fieldset>
+    <% end %>
+</div>

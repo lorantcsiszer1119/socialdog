@@ -1,0 +1,33 @@
+<% @your_friends = (current_user && @user.id == current_user.id) ? true : false %>
+<div class="main-col">
+    <div class="extra-header">
+        <h2><% if @your_friends -%>Your<% else -%><%= @user.login -%>'s<% end -%> Friends</h2>
+    </div>
+    <div id="friends-list">
+        <% unless @user.follows.empty? %>
+        
+        <% @user_follows = @user.follows.paginate(:order => 'bio ASC', :page => params[:page], :per_page => 10) %>
+        
+        <% for user in @user_follows %>
+        
+        <%= render :partial => 'users/user_block', :object => user, :as => :user %>
+        
+        <% end %>
+        
+        <!-- Pagination -->
+        <%= will_paginate @user_follows %>
+        
+        <% else %>
+        Go make some <a href="/everyone">friends</a>!
+        <% end %>
+    </div>
+</div>
+<div class="sidebar">
+    <% @no_friends = true %>
+    <%= render(:partial => 'shared/sidebar', :object => @user, :as => :sidebar_user) if current_user %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    Follows.initFollowBy('<%= form_authenticity_token -%>');
+    $('.user-block-new:last').addClass('last');
+</script>

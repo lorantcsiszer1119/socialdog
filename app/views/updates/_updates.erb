@@ -1,0 +1,43 @@
+<script type="text/javascript" charset="utf-8">
+    Updates.authToken = '<%= form_authenticity_token -%>';
+    Updates.view      = '<%= @view_segment -%>';
+</script>
+
+<% unless @updates.blank? %>
+
+    <div id="updates_updates_updates">
+        <% for update in @updates %>
+        <%= render :partial => 'updates/update', :object => update %>
+        <% end %>
+        <script type="text/javascript" charset="utf-8">
+            Updates.lastID = <%= update.id -%>;
+            <% if @zipcode -%>Updates.zipcode = <%= @zipcode -%><% end -%>;
+            <% if @zoom_miles -%>Updates.miles = <%= @zoom_miles -%><% end -%>;
+        </script>
+        
+        <% if @updates.size == Update::PER_PAGE && !defined?(@no_load_more) %>
+        <div class="load_more">
+            <a href="#" onclick="return Updates.loadMore(<%= update.id -%>);">Load More&hellip;</a>
+        </div>
+        <% end %>
+    </div>
+
+<% else %>
+
+    <% unless @view_segment == 'replies' %>
+    <div class="blank-slate">
+        <h5><%= "#{@user.login} hasn&#8217;t posted any updates yet." rescue 'No updates to see here.' -%>
+            <% if @user && current_user && @user.id == current_user.id -%><br />Why not <a href="/home?status=I+am+awesome">post one</a> now?<% end -%></h5>
+    </div>
+    <% else %>
+    <div class="blank-slate">
+        <h5>No replies found.</h5>
+    </div>
+    <% end %>
+
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+    $('div.update').removeClass('last');
+    $('div.update:last').addClass('last');
+</script>

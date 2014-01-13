@@ -1,0 +1,12 @@
+Hi! <%= @from_user.login %> (<%= @from_user.real_name %>) just replied to an update you posted on My Social Dog:
+
+<%= @update.body %>
+
+Check out the update here:
+http://www.mysocialdog.com/<%= @from_user.login %>/updates/<%= @update.id %>
+
+Check out their profile here:
+http://www.mysocialdog.com/<%= @from_user.login %>
+
+Love,
+My Social Dog
